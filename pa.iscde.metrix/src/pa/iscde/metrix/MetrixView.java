@@ -26,6 +26,8 @@ public class MetrixView implements PidescoView {
 
 	@Override
 	public void createContents(Composite viewArea, Map<String, Image> imageMap) {
+		
+		
 
         Table table = new Table(viewArea, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
         table.setLinesVisible(true);
