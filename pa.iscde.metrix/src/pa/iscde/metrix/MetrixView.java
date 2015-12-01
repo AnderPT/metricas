@@ -1,13 +1,25 @@
 package pa.iscde.metrix;
 
+import java.io.File;
+import java.lang.reflect.Method;
 import java.util.Map;
 
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jface.dialogs.AbstractSelectionDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ViewForm;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -16,49 +28,76 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.swt.widgets.TreeItem;
 
 import pt.iscte.pidesco.extensibility.PidescoView;
+import pt.iscte.pidesco.javaeditor.internal.JavaEditorActivator;
+import pt.iscte.pidesco.javaeditor.service.JavaEditorListener.Adapter;
+import pt.iscte.pidesco.javaeditor.service.JavaEditorListener;
+import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;
 
 public class MetrixView implements PidescoView {
 
+	private JavaEditorServices services;
+	private ClassVisitor cv;
+	private MetrixView content;
+	private int numMethods = 0; 
+	private TableTree tableTree;
+	private ViewForm viewForm;
+	
 	public MetrixView() {
+		content = this;
 	}
 
 	@Override
 	public void createContents(Composite viewArea, Map<String, Image> imageMap) {
 		
+		IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
+		IExtensionPoint extensionPoint = extRegistry.getExtensionPoint("pa.iscde.test.textext");
 		
+		IExtension[] extensions = extensionPoint.getExtensions();
+		for(IExtension e : extensions) {
+		    IConfigurationElement[] confElements = e.getConfigurationElements();
+		    for(IConfigurationElement c : confElements) {
+		        String s = c.getAttribute("name");
+		        try {
+		            Object o = c.createExecutableExtension("class");
+		        } catch (CoreException e1) {
+		            // TODO Auto-generated catch block
+		            e1.printStackTrace();
+		        }
+		    }
+		}
+		
+		services = JavaEditorActivator.getInstance().getServices();
+		
+		viewForm = new ViewForm(viewArea, SWT.NONE);
+		viewForm.setLayout(new RowLayout());
+		viewForm.setBounds(10, 10, 488, 55);
+		
+		Combo combo = new Combo(viewForm, SWT.NONE);
+		viewForm.setTopLeft(combo);
+		
+		tableTree = new TableTree(viewForm);
+		tableTree.addColumns();
+		tableTree.addItems();
+		viewForm.setContent(tableTree.getTree());
+		
+		services.addListener( new JavaEditorListener.Adapter(){
 
-        Table table = new Table(viewArea, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
-        table.setLinesVisible(true);
-        table.setHeaderVisible(true);
- 
-        String[] titles = { "Metric Name", "Value"};
-        for (int i = 0; i < titles.length; i++) {
-            TableColumn column = new TableColumn(table, SWT.NONE);
-            column.setText(titles[i]);
-            table.getColumn(i).pack();
-        }
-        
-        for (int i = 0 ; i<= 50 ; i++){
-            TableItem item = new TableItem(table, SWT.NONE);
-            item.setText (0, "Package/Class/Method " +i);
-            item.setText (2, String.valueOf(i));
-            
-        }
-        
-        for (int i=0; i<titles.length; i++) {
-            table.getColumn (i).pack ();
-        }    
-        table.addListener(SWT.DefaultSelection, new Listener() {
-				
-			@Override
-			public void handleEvent(Event event) {
-			}
-		});
-        
-        
-        viewArea.pack ();
+		@Override
+			public void fileOpened(File file) {
+				System.out.println("Opened File");
+				super.fileOpened(file);
+				MetricAnalyzer metric = new MetricAnalyzer();
+				cv = new ClassVisitor(metric);
+				services.parseFile(file, cv);
+				tableTree.updateTable(metric);
+			}	
+	      });
+
 	}
 	
 	
