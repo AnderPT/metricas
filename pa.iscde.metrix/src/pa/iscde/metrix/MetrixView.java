@@ -54,24 +54,24 @@ public class MetrixView implements PidescoView {
 	@Override
 	public void createContents(Composite viewArea, Map<String, Image> imageMap) {
 		
-		IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
-		IExtensionPoint extensionPoint = extRegistry.getExtensionPoint("pa.iscde.test.textext");
-		
-		IExtension[] extensions = extensionPoint.getExtensions();
-		for(IExtension e : extensions) {
-			System.out.println("PASSOU");
-		    IConfigurationElement[] confElements = e.getConfigurationElements();
-		    for(IConfigurationElement c : confElements) {
-		        String s = c.getAttribute("id");
-		        System.out.println(s);
+//		IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
+//		IExtensionPoint extensionPoint = extRegistry.getExtensionPoint("pa.iscde.test.textext");
+//		
+//		IExtension[] extensions = extensionPoint.getExtensions();
+//		for(IExtension e : extensions) {
+//			System.out.println("PASSOU");
+//		    IConfigurationElement[] confElements = e.getConfigurationElements();
+//		    for(IConfigurationElement c : confElements) {
+//		        String s = c.getAttribute("id");
+//		        System.out.println(s);
 //		        try {
 //		            Object o = c.createExecutableExtension("class");
 //		        } catch (CoreException e1) {
 //		            // TODO Auto-generated catch block
 //		            e1.printStackTrace();
 //		        }
-		    }
-		}
+//		    }
+//		}
 		
 		services = JavaEditorActivator.getInstance().getServices();
 		

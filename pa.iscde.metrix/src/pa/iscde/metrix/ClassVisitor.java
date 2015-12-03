@@ -6,6 +6,7 @@ import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.ConditionalExpression;
 import org.eclipse.jdt.core.dom.ConstructorInvocation;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
+import org.eclipse.jdt.core.dom.LineComment;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 public class ClassVisitor extends ASTVisitor {
@@ -30,6 +31,12 @@ public class ClassVisitor extends ASTVisitor {
 			view.addConstructor();
 		}
 		view.addMethod();
+		return super.visit(node);
+	}
+	
+	@Override
+	public boolean visit(LineComment node) {
+		System.out.println("AAAAAA");
 		return super.visit(node);
 	}
 
