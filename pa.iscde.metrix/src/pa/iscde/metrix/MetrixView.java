@@ -59,15 +59,17 @@ public class MetrixView implements PidescoView {
 		
 		IExtension[] extensions = extensionPoint.getExtensions();
 		for(IExtension e : extensions) {
+			System.out.println("PASSOU");
 		    IConfigurationElement[] confElements = e.getConfigurationElements();
 		    for(IConfigurationElement c : confElements) {
-		        String s = c.getAttribute("name");
-		        try {
-		            Object o = c.createExecutableExtension("class");
-		        } catch (CoreException e1) {
-		            // TODO Auto-generated catch block
-		            e1.printStackTrace();
-		        }
+		        String s = c.getAttribute("id");
+		        System.out.println(s);
+//		        try {
+//		            Object o = c.createExecutableExtension("class");
+//		        } catch (CoreException e1) {
+//		            // TODO Auto-generated catch block
+//		            e1.printStackTrace();
+//		        }
 		    }
 		}
 		

@@ -11,5 +11,13 @@
             icon="smiley.png">
       </view>
    </extension>
+   <extension
+         id="Test"
+         name="MetrixView"
+         point="pa.iscde.metrix.textext">
+      <item
+            class="pa.iscde.metrix.item1">
+      </item>
+   </extension>
 
 </plugin>
