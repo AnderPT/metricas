@@ -15,7 +15,7 @@ public class TableTree {
 	
 	private Tree tree;
 	private String[] metrics = new String[] {"Number of Lines", "Number of Methods", "Number of Constructors"
-			, "Number of Fields", "Number of Comments"};
+			, "Number of Fields", "Number of Comments", "Number of Packages"};
 	private ArrayList<TreeItem> listItems = new ArrayList<TreeItem>();
 
 	public TableTree(Composite viewArea) {

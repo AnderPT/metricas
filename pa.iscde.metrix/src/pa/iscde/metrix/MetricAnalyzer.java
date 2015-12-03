@@ -9,6 +9,7 @@ public class MetricAnalyzer {
 	private int numbFields;
 	private int numbLines;
 	private int numbComments;
+	private int numbPackage;
 	
 	public void setNumbLines(int numbLines) {
 		this.numbLines = numbLines;
@@ -33,6 +34,9 @@ public class MetricAnalyzer {
 	public void addComment() {
 		numbComments++;
 	}
+	public void addPackage() {
+		numbPackage++;
+	}
 
 	public String getNumbMetric(String string) {
 		switch (string) {
@@ -46,6 +50,8 @@ public class MetricAnalyzer {
 			return "" + numbFields;
 		case "Number of Comments":
 			return "" + numbComments;
+		case "Number of Packages":
+			return "" + numbPackage;
 		default:
 			return null;
 		}

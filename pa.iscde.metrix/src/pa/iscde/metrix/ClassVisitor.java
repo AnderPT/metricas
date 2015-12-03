@@ -9,6 +9,7 @@ import org.eclipse.jdt.core.dom.ConstructorInvocation;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.LineComment;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.PackageDeclaration;
 
 public class ClassVisitor extends ASTVisitor {
 	
@@ -42,6 +43,11 @@ public class ClassVisitor extends ASTVisitor {
 			view.addConstructor();
 		}
 		view.addMethod();
+		return super.visit(node);
+	}
+	@Override
+	public boolean visit(PackageDeclaration node) {
+		view.addPackage();
 		return super.visit(node);
 	}
 
