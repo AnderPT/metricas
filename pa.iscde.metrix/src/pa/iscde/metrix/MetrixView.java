@@ -16,6 +16,7 @@ import org.eclipse.jface.dialogs.AbstractSelectionDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ViewForm;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
@@ -46,6 +47,7 @@ public class MetrixView implements PidescoView {
 	private int numMethods = 0; 
 	private TableTree tableTree;
 	private ViewForm viewForm;
+	private String[] items = {"Current File","Current Project"};
 	
 	public MetrixView() {
 		content = this;
@@ -74,18 +76,22 @@ public class MetrixView implements PidescoView {
 //		}
 		
 		services = JavaEditorActivator.getInstance().getServices();
+		viewArea.setLayout(new RowLayout());
+//		viewForm = new ViewForm(viewArea, SWT.NONE);
+//		viewForm.setLayout(new FillLayout());
+//		viewForm.setBounds(10, 10, 200, 55);
 		
-		viewForm = new ViewForm(viewArea, SWT.NONE);
-		viewForm.setLayout(new RowLayout());
-		viewForm.setBounds(10, 10, 488, 55);
+		Combo combo = new Combo(viewArea, SWT.NONE);
+		combo.setItems(items);
+		combo.setBounds(0, 0, 200, 400);
+//		viewForm.setTopLeft(combo);
 		
-		Combo combo = new Combo(viewForm, SWT.NONE);
-		viewForm.setTopLeft(combo);
 		
-		tableTree = new TableTree(viewForm);
+		
+		tableTree = new TableTree(viewArea);
 		tableTree.addColumns();
 		tableTree.addItems();
-		viewForm.setContent(tableTree.getTree());
+//		viewForm.setContent(tableTree.getTree());
 		
 		services.addListener( new JavaEditorListener.Adapter(){
 
@@ -99,7 +105,6 @@ public class MetrixView implements PidescoView {
 				tableTree.updateTable(metric);
 			}	
 	      });
-
 	}
 	
 	

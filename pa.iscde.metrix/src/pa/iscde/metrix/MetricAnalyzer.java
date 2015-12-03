@@ -8,36 +8,8 @@ public class MetricAnalyzer {
 	private int numbConstructors;
 	private int numbFields;
 	private int numbLines;
+	private int numbComments;
 	
-
-	public int getNumbMethods() {
-		return numbMethods;
-	}
-
-	public void setNumbMethods(int numbMethods) {
-		this.numbMethods = numbMethods;
-	}
-
-	public int getNumbConstructors() {
-		return numbConstructors;
-	}
-
-	public void setNumbConstructors(int numbConstructors) {
-		this.numbConstructors = numbConstructors;
-	}
-
-	public int getNumbFields() {
-		return numbFields;
-	}
-
-	public void setNumbFields(int numbFields) {
-		this.numbFields = numbFields;
-	}
-
-	public int getNumbLines() {
-		return numbLines;
-	}
-
 	public void setNumbLines(int numbLines) {
 		this.numbLines = numbLines;
 	}
@@ -57,6 +29,10 @@ public class MetricAnalyzer {
 	public void addLine() {
 		numbLines++;
 	}
+	
+	public void addComment() {
+		numbComments++;
+	}
 
 	public String getNumbMetric(String string) {
 		switch (string) {
@@ -68,10 +44,14 @@ public class MetricAnalyzer {
 			return "" + numbConstructors;
 		case "Number of Fields":
 			return "" + numbFields;
+		case "Number of Comments":
+			return "" + numbComments;
 		default:
 			return null;
 		}
 	}
+
+	
 
 
 }

@@ -15,11 +15,11 @@ public class TableTree {
 	
 	private Tree tree;
 	private String[] metrics = new String[] {"Number of Lines", "Number of Methods", "Number of Constructors"
-			, "Number of Fields"};
+			, "Number of Fields", "Number of Comments"};
 	private ArrayList<TreeItem> listItems = new ArrayList<TreeItem>();
 
-	public TableTree(ViewForm viewForm) {
-		 tree = new Tree(viewForm, SWT.BORDER | SWT.FILL | SWT.FILL);
+	public TableTree(Composite viewArea) {
+		 tree = new Tree(viewArea, SWT.BORDER | SWT.FILL | SWT.FILL);
 		 tree.setHeaderVisible(true);
 		 
 	}
