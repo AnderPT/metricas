@@ -1,4 +1,4 @@
-package pa.iscde.metrix;
+package pa.iscde.metrix.view;
 
 import java.util.ArrayList;
 
@@ -11,26 +11,24 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
+import pa.iscde.metrix.MetricAnalyzer;
+
 public class TableTree {
 	
 	private Tree tree;
 	private String[] metrics = new String[] {"Number of Lines", "Number of Methods", "Number of Constructors"
-			, "Number of Fields", "Number of Comments", "Number of Packages"};
+			, "Number of Fields", "Number of Comments"};
 	private ArrayList<TreeItem> listItems = new ArrayList<TreeItem>();
 
 	public TableTree(Composite viewArea) {
 		 tree = new Tree(viewArea, SWT.BORDER | SWT.FILL | SWT.FILL);
 		 tree.setHeaderVisible(true);
-		 
 	}
 	
-	public void addColumns() {
+	public void addColumn(String name) {
 		TreeColumn column1 = new TreeColumn(tree, SWT.LEFT);
-	    column1.setText("Metric");
+	    column1.setText(name);
 	    column1.setWidth(300);
-	    TreeColumn column2 = new TreeColumn(tree, SWT.CENTER);
-	    column2.setText("Value");
-	    column2.setWidth(300);
 	}
 	
 	public void addItems() {
