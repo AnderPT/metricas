@@ -1,5 +1,6 @@
 package pa.iscde.metrix.view;
 
+import java.awt.GridLayout;
 import java.io.File;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -23,10 +25,8 @@ import pa.iscde.metrix.MetricAnalyzer;
 import pa.iscde.metrix.activator.Activator;
 import pt.iscte.pidesco.extensibility.PidescoView;
 import pt.iscte.pidesco.javaeditor.internal.JavaEditorActivator;
-import pt.iscte.pidesco.javaeditor.service.JavaEditorListener.Adapter;
 import pt.iscte.pidesco.javaeditor.service.JavaEditorListener;
 import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;
-import pt.iscte.pidesco.projectbrowser.internal.ProjectBrowserActivator;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
 
 public class MetrixView implements PidescoView {
@@ -45,15 +45,15 @@ public class MetrixView implements PidescoView {
 	public void createContents(Composite viewArea, Map<String, Image> imageMap) {
 		
 //		testExtension();
-//		getServices();
-		
-		editorServices = JavaEditorActivator.getInstance().getServices();
-
+		getServices();
 		viewArea.setLayout(new RowLayout());
+
+		Composite bar = new Composite(viewArea, SWT.BORDER_DASH);
+		bar.setLayout(new FillLayout());
 		
-		combo = new Combo(viewArea, SWT.NONE);
+		combo = new Combo(bar, SWT.READ_ONLY);
 		combo.setItems(items);
-		combo.setBounds(0, 0, 200, 400);
+		combo.select(0);
 		combo.addSelectionListener(new SelectionAdapter() {
 			
 			@Override
@@ -77,10 +77,7 @@ public class MetrixView implements PidescoView {
 			public void fileOpened(File file) {				
 				super.fileOpened(file);	
 				if (combo.getText().equals("Current File")) {
-					MetricAnalyzer metric = new MetricAnalyzer();
-					cv = new ClassVisitor(metric);
-					editorServices.parseFile(file, cv);
-					tableTree.updateTable(metric);
+					analyzeMetrics(file);
 				}
 			}
 		});
@@ -89,6 +86,10 @@ public class MetrixView implements PidescoView {
 	
 	private void getOpenedFileMetrics() {
 		File file = editorServices.getOpenedFile();
+		analyzeMetrics(file);
+	}
+
+	private void analyzeMetrics(File file) {
 		MetricAnalyzer metric = new MetricAnalyzer();
 		cv = new ClassVisitor(metric);
 		editorServices.parseFile(file, cv);
