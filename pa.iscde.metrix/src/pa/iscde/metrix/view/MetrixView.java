@@ -2,7 +2,9 @@ package pa.iscde.metrix.view;
 
 import java.awt.GridLayout;
 import java.io.File;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -13,16 +15,22 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 
-
+import pa.iscde.metrix.ClassHashMetrix;
 import pa.iscde.metrix.ClassVisitor;
 import pa.iscde.metrix.MetricAnalyzer;
 import pa.iscde.metrix.activator.Activator;
+import pa.iscde.metrix.extensibility.ExportMetrix;
+import pa.iscde.metrix.extensibility.typeExport;
 import pt.iscte.pidesco.extensibility.PidescoView;
 import pt.iscte.pidesco.javaeditor.internal.JavaEditorActivator;
 import pt.iscte.pidesco.javaeditor.service.JavaEditorListener;
@@ -44,7 +52,7 @@ public class MetrixView implements PidescoView {
 	@Override
 	public void createContents(Composite viewArea, Map<String, Image> imageMap) {
 		
-//		testExtension();
+		//testExtension();
 		getServices();
 		viewArea.setLayout(new RowLayout());
 
@@ -64,6 +72,25 @@ public class MetrixView implements PidescoView {
 				} else if (combo.getText().equals("Current Project")) {
 
 				}
+			}
+		});
+		
+		//button export
+		  final Button button = new Button(viewArea, SWT.PUSH);
+		  button.setBounds(40, 50, 50, 20);
+		  button.setText("Export");
+		  
+		  button.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				testExtension();
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				
 			}
 		});
 		
@@ -104,17 +131,35 @@ public class MetrixView implements PidescoView {
 
 	private void testExtension() {
 		IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
-		IExtensionPoint extensionPoint = extRegistry.getExtensionPoint("pa.iscde.metrix.textext");
+		IExtensionPoint extensionPoint = extRegistry.getExtensionPoint("pa.iscde.metrixexport");
 		
 		IExtension[] extensions = extensionPoint.getExtensions();
 		for(IExtension e : extensions) {
 			System.out.println("PASSOU");
 		    IConfigurationElement[] confElements = e.getConfigurationElements();
 		    for(IConfigurationElement c : confElements) {
-		        String s = c.getAttribute("id");
-		        System.out.println(s);
+//		        String s = c.getAttribute("id");
+//		        System.out.println(s);
 		        try {
 		            Object o = c.createExecutableExtension("class");
+		            System.out.println(((ExportMetrix)o).exportMetrix());
+		            //((ExportMetrix)o).exportMetrix();
+		            
+		            //GERAR CSV
+		            ClassHashMetrix cm = new ClassHashMetrix();
+		            cm.init();
+		            System.out.println(cm.getHmap().size());
+		            
+		            
+		            
+		            Set set = cm.getHmap().entrySet();
+		            Iterator iterator = set.iterator();
+		            while(iterator.hasNext()) {
+		               Map.Entry mentry = (Map.Entry)iterator.next();
+		               System.out.print("Metrica is: "+ mentry.getKey() + " & Value is: ");
+		               System.out.println(mentry.getValue());
+		            }
+		            
 		        } catch (CoreException e1) {
 		            // TODO Auto- catch block
 		            e1.printStackTrace();

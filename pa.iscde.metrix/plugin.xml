@@ -2,6 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="textext" name="Test Extension" schema="schema/textext.exsd"/>
+   <extension-point id="pa.iscde.metrixexport" name="export" schema="schema/export.exsd"/>
    <extension
          id="metrixview"
          name="Metrix"
@@ -10,14 +11,6 @@
             class="pa.iscde.metrix.view.MetrixView"
             icon="smiley.png">
       </view>
-   </extension>
-   <extension
-         id="Test"
-         name="MetrixView"
-         point="pa.iscde.metrix.textext">
-      <item
-            class="pa.iscde.metrix.item1">
-      </item>
    </extension>
 
 </plugin>
