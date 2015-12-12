@@ -35,6 +35,8 @@ import pt.iscte.pidesco.extensibility.PidescoView;
 import pt.iscte.pidesco.javaeditor.internal.JavaEditorActivator;
 import pt.iscte.pidesco.javaeditor.service.JavaEditorListener;
 import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;
+import pt.iscte.pidesco.projectbrowser.model.PackageElement;
+import pt.iscte.pidesco.projectbrowser.model.SourceElement;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
 
 public class MetrixView implements PidescoView {
@@ -70,7 +72,7 @@ public class MetrixView implements PidescoView {
 					getOpenedFileMetrics();
 
 				} else if (combo.getText().equals("Current Project")) {
-
+					getOpenedProjectMetrics();
 				}
 			}
 		});
@@ -110,6 +112,24 @@ public class MetrixView implements PidescoView {
 		});
 		
 	}
+	
+	protected void getOpenedProjectMetrics() {
+			
+			PackageElement root = projectServices.getRootPackage();
+			
+			if (root.hasChildren()) {
+				for (SourceElement child : root.getChildren()) {
+					if (child.isPackage()) {
+						System.out.println("Package: " + child.getName());
+	
+					} else if (child.isClass()) {
+						child.getFile();
+						System.out.println("Class: " + child.getName());
+					}
+				}
+			}
+			
+		}
 	
 	private void getOpenedFileMetrics() {
 		File file = editorServices.getOpenedFile();
