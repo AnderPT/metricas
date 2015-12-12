@@ -72,7 +72,8 @@ public class MetrixView implements PidescoView {
 					getOpenedFileMetrics();
 
 				} else if (combo.getText().equals("Current Project")) {
-					getOpenedProjectMetrics();
+					PackageElement root = projectServices.getRootPackage();
+					getOpenedProjectMetrics(root);
 				}
 			}
 		});
@@ -113,24 +114,28 @@ public class MetrixView implements PidescoView {
 		
 	}
 	
-	protected void getOpenedProjectMetrics() {
+	protected void getOpenedProjectMetrics(PackageElement root) {
 			
-			PackageElement root = projectServices.getRootPackage();
-			
-			if (root.hasChildren()) {
-				for (SourceElement child : root.getChildren()) {
-					if (child.isPackage()) {
-						System.out.println("Package: " + child.getName());
-	
-					} else if (child.isClass()) {
-						child.getFile();
-						System.out.println("Class: " + child.getName());
-					}
+		if (root.hasChildren()) {
+			for (SourceElement child : root.getChildren()) {
+				if (child.isPackage()) {
+					getOpenedProjectMetrics((PackageElement)child);
+					System.out.println("Package: " + child.getName());
+
+				} else if (child.isClass()) {
+					analyzeClass(child.getFile(), root);
+					System.out.println("Class: " + child.getName());
 				}
 			}
-			
+		}
 		}
 	
+	private void analyzeClass(File file, PackageElement root) {
+		MetricAnalyzer metric = new MetricAnalyzer();
+		cv = new ClassVisitor(metric);
+		editorServices.parseFile(file, cv);
+	}
+
 	private void getOpenedFileMetrics() {
 		File file = editorServices.getOpenedFile();
 		analyzeMetrics(file);
