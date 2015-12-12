@@ -23,7 +23,7 @@ public class ClassVisitor extends ASTVisitor {
 		int start = node.getStartPosition();
 		int end = start + node.getLength();
 		System.out.println(start + "  " + end);
-		view.addComment();
+		view.incremetMetric("Number of Comments");
 		return true;
 	}
 
@@ -33,7 +33,7 @@ public class ClassVisitor extends ASTVisitor {
 	
 	@Override
 	public boolean visit(FieldDeclaration node) {
-		view.addField();
+		view.incremetMetric("Number of Fields");
 		return super.visit(node);
 	}
 	
@@ -41,26 +41,20 @@ public class ClassVisitor extends ASTVisitor {
 	@Override
 	public boolean visit(MethodDeclaration node) {
 		if (node.isConstructor()) {
-			view.addConstructor();
+			view.incremetMetric("Number of Constructors");
 		}
-		view.addMethod();
+		view.incremetMetric("Number of Methods");
 		return super.visit(node);
 	}
 
 	@Override
 	public boolean visit(CharacterLiteral node) {
-		
-		//NAO FUNCIONA
-		
-
-	
-		
-		view.addCharacters();
+		view.incremetMetric("Number of Characters");
 		return super.visit(node);
 	}
 	@Override
 	public boolean visit(PackageDeclaration node) {
-		view.addPackages();
+		view.incremetMetric("Number of Packages");
 		return super.visit(node);
 	}
 

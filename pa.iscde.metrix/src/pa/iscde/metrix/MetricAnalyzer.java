@@ -1,67 +1,46 @@
 package pa.iscde.metrix;
 
+import java.util.HashMap;
+
 import org.eclipse.swt.widgets.List;
 
 public class MetricAnalyzer {
 	
-	private int numbMethods;
-	private int numbConstructors;
-	private int numbFields;
-	private int numbLines;
-	private int numbComments;
-	private int numbCharacters;
-	private int numbPackages;
+	private HashMap<String, Integer> metrics = new HashMap<String, Integer>();
+	private String[] inicialMetrics = new String[] {"Number of Lines", "Number of Methods", "Number of Constructors"
+			, "Number of Fields", "Number of Comments", "Number of Characters" , "Number of Packages"};
+
 	
-	public void setNumbLines(int numbLines) {
-		this.numbLines = numbLines;
+	public MetricAnalyzer() {
+		putInicialMetrics();
 	}
 	
-	public void addMethod() {
-		numbMethods++;
-	}
-	
-	public void addField() {
-		numbFields++;
-	}
-	
-	public void addConstructor() {
-		numbConstructors++;
-	}
-	
-	public void addLine() {
-		numbLines++;
-	}
-	
-	public void addComment() {
-		numbComments++;
-	}
-	
-	public void addCharacters() {
-		numbCharacters++;
-	}
-	public void addPackages() {
-		numbPackages++;
+	private void putInicialMetrics() {
+		for (String m : inicialMetrics) {
+			metrics.put(m, 0);
+		}
 	}
 
+//	private void addMetric(String name, int value) {
+//		Metric m = new Metric(name, value);
+//		metrics.put(m.getName(),m.getValue());
+//	}
+
 	public String getNumbMetric(String string) {
-		switch (string) {
-		case "Number of Lines":
-			return "" + numbLines;
-		case "Number of Methods":
-			return "" + numbMethods;
-		case "Number of Constructors":
-			return "" + numbConstructors;
-		case "Number of Fields":
-			return "" + numbFields;
-		case "Number of Comments":
-			return "" + numbComments;
-		case "Number of Characters":
-			return "" + numbCharacters;
-		case "Number of Packages":
-			return "" + numbPackages;
-		default:
-			return null;
-		}
+		return metrics.get(string) + "";
+	}
+
+	public void incremetMetric(String m) {
+		int v = metrics.get(m) + 1;
+		metrics.replace(m, v);
+	}
+	
+	public HashMap<String, Integer> getMetrics() {
+		return metrics;
+	}
+	
+	public String[] getInicialMetrics() {
+		return inicialMetrics;
 	}
 
 	

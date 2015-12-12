@@ -1,6 +1,7 @@
 package pa.iscde.metrix.view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ViewForm;
@@ -54,8 +55,9 @@ public class TableTree {
 
 	public void updateTable(MetricAnalyzer metric) {
 		tree.clearAll(true);
-		for (int i = 0; i < listItems.size(); i++) {
-		    (listItems.get(i)).setText(new String[] { metrics[i], metric.getNumbMetric(metrics[i]) });
+		HashMap< String, Integer> map = metric.getMetrics();
+		for (int i = 0; i < map.size(); i++) {
+			(listItems.get(i)).setText(new String[] { metric.getInicialMetrics()[i], map.get(metric.getInicialMetrics()[i]) + "", });
 		}
 	}
 
