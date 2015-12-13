@@ -1,8 +1,12 @@
 package pa.iscde.metrix;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.LineNumberReader;
 import java.util.HashMap;
 
-import org.eclipse.swt.widgets.List;
 
 public class MetricAnalyzer {
 	
@@ -11,8 +15,20 @@ public class MetricAnalyzer {
 			, "Number of Fields", "Number of Comments", "Number of Characters" , "Number of Packages"};
 
 	
-	public MetricAnalyzer() {
+	public MetricAnalyzer(File file) {
 		putInicialMetrics();
+		
+		LineNumberReader lnr;
+		try {
+			lnr = new LineNumberReader(new FileReader(file));
+			lnr.skip(Long.MAX_VALUE);
+			metrics.replace("Number of Lines", lnr.getLineNumber() + 1); 
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	private void putInicialMetrics() {
@@ -20,11 +36,6 @@ public class MetricAnalyzer {
 			metrics.put(m, 0);
 		}
 	}
-
-//	private void addMetric(String name, int value) {
-//		Metric m = new Metric(name, value);
-//		metrics.put(m.getName(),m.getValue());
-//	}
 
 	public String getNumbMetric(String string) {
 		return metrics.get(string) + "";
@@ -42,8 +53,5 @@ public class MetricAnalyzer {
 	public String[] getInicialMetrics() {
 		return inicialMetrics;
 	}
-
-	
-
 
 }

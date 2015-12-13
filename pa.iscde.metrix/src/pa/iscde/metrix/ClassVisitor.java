@@ -1,14 +1,9 @@
 package pa.iscde.metrix;
 
-import java.io.File;
-
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.BlockComment;
 import org.eclipse.jdt.core.dom.CharacterLiteral;
-import org.eclipse.jdt.core.dom.ConditionalExpression;
-import org.eclipse.jdt.core.dom.ConstructorInvocation;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
-import org.eclipse.jdt.core.dom.LineComment;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 
@@ -36,6 +31,7 @@ public class ClassVisitor extends ASTVisitor {
 		view.incremetMetric("Number of Fields");
 		return super.visit(node);
 	}
+	
 	
 
 	@Override
