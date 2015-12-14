@@ -14,6 +14,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+
 import pa.iscde.metrix.ClassVisitor;
 import pa.iscde.metrix.MetricAnalyzer;
 import pa.iscde.metrix.MetrixExtension;
@@ -40,6 +43,7 @@ public class MetrixView implements PidescoView {
 	@Override
 	public void createContents(Composite viewArea, Map<String, Image> imageMap) {
 		
+		Multimap<String, String > map =  ArrayListMultimap.create();
 		getServices();
 		viewArea.setLayout(new RowLayout());
 
