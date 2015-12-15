@@ -7,9 +7,21 @@ import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 
+/**
+ * Class 
+ * 
+ */
+
 public class ClassVisitor extends ASTVisitor {
 	
 	private MetricAnalyzer view;
+	
+	
+	/**
+	 * 
+	 * @param node
+	 * @return true
+	 */
 	
 	
 	@Override
@@ -22,9 +34,19 @@ public class ClassVisitor extends ASTVisitor {
 		return true;
 	}
 
+	/**
+	 * 
+	 * @param view
+	 */
+	
 	public ClassVisitor(MetricAnalyzer view) {
 		this.view = view;
 	}
+	
+	/**
+	 * 
+	 * @param node
+	 */
 	
 	@Override
 	public boolean visit(FieldDeclaration node) {
@@ -32,7 +54,11 @@ public class ClassVisitor extends ASTVisitor {
 		return super.visit(node);
 	}
 	
-	
+	/**
+	 * 
+	 * @param node
+	 * @return super.visit node
+	 */
 
 	@Override
 	public boolean visit(MethodDeclaration node) {
@@ -43,11 +69,24 @@ public class ClassVisitor extends ASTVisitor {
 		return super.visit(node);
 	}
 
+	/**
+	 * 
+	 * @param node
+	 * @return super.visit node
+	 */
+	
 	@Override
 	public boolean visit(CharacterLiteral node) {
 		view.incremetMetric("Number of Characters");
 		return super.visit(node);
 	}
+	
+	/**
+	 * 
+	 * @param node
+	 * @return super.visit node
+	 */
+	
 	@Override
 	public boolean visit(PackageDeclaration node) {
 		view.incremetMetric("Number of Packages");

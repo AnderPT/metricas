@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.HashMap;
 
+/**
+ * Class 
+ * 
+ */
 
 public class MetricAnalyzer {
 	
@@ -14,6 +18,10 @@ public class MetricAnalyzer {
 	private String[] inicialMetrics = new String[] {"Number of Lines", "Number of Methods", "Number of Constructors"
 			, "Number of Fields", "Number of Comments", "Number of Characters" , "Number of Packages"};
 
+	/**
+	 * 
+	 * @param file
+	 */
 	
 	public MetricAnalyzer(File file) {
 		putInicialMetrics();
@@ -22,7 +30,10 @@ public class MetricAnalyzer {
 		try {
 			lnr = new LineNumberReader(new FileReader(file));
 			lnr.skip(Long.MAX_VALUE);
-			metrics.replace("Number of Lines", lnr.getLineNumber() + 1); 
+		
+			metrics.remove(lnr.getLineNumber());
+			metrics.put("Number of Lines", lnr.getLineNumber() + 1);
+			 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -37,18 +48,42 @@ public class MetricAnalyzer {
 		}
 	}
 
+	
+	/**
+	 * 
+	 * @param string
+	 * @return metrics
+	 */
 	public String getNumbMetric(String string) {
 		return metrics.get(string) + "";
 	}
 
+	/**
+	 * 
+	 * @param m
+	 */
+	
 	public void incremetMetric(String m) {
 		int v = metrics.get(m) + 1;
-		metrics.replace(m, v);
+		
+		metrics.remove(m);
+		metrics.put(m, v);
+		
 	}
+	
+	/**
+	 * 
+	 * @return metrics
+	 */
 	
 	public HashMap<String, Integer> getMetrics() {
 		return metrics;
 	}
+	
+	/**
+	 * 
+	 * @return inicialMetrics
+	 */
 	
 	public String[] getInicialMetrics() {
 		return inicialMetrics;
