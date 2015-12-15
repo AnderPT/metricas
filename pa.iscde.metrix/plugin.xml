@@ -3,6 +3,7 @@
 <plugin>
    <extension-point id="textext" name="Test Extension" schema="schema/textext.exsd"/>
    <extension-point id="pa.iscde.metrixexport" name="export" schema="schema/export.exsd"/>
+   <extension-point id="pa.iscde.addmetricext" name="addmetricext" schema="schema/pa.iscde.addmetricext.exsd"/>
    <extension
          id="metrixview"
          name="Metrix"
