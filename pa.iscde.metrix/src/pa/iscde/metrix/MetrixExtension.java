@@ -17,11 +17,18 @@ public class MetrixExtension {
 	
 	private IExtensionPoint extensionPointExport;
 
+	/**
+	 * 
+	 */
+	
 	public MetrixExtension() {
 		IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
 		extensionPointExport = extRegistry.getExtensionPoint("pa.iscde.metrixexport");
 	}
 	
+	/**
+	 * 
+	 */
 	public void exportMetricExtension() {
 		IExtension[] extensions = extensionPointExport.getExtensions();
 		for(IExtension e : extensions) {
