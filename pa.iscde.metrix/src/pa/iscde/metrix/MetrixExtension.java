@@ -12,10 +12,12 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
 import pa.iscde.metrix.extensibility.ExportMetrix;
+import pa.iscde.metrix.extensibility.NewMetric;
 
 public class MetrixExtension {
 	
 	private IExtensionPoint extensionPointExport;
+	private IExtensionPoint extensionPointExportNewMetric;
 
 	/**
 	 * 
@@ -24,6 +26,8 @@ public class MetrixExtension {
 	public MetrixExtension() {
 		IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
 		extensionPointExport = extRegistry.getExtensionPoint("pa.iscde.metrixexport");
+		extensionPointExportNewMetric = extRegistry.getExtensionPoint("pa.iscde.addmetricext");
+
 	}
 	
 	/**
@@ -61,6 +65,29 @@ public class MetrixExtension {
 		}
 	}
 
+	public void newMetricExtension() {
+		IExtension[] extensions = extensionPointExportNewMetric.getExtensions();
+		for(IExtension e : extensions) {
+			System.out.println("PASSOU");
+		    IConfigurationElement[] confElements = e.getConfigurationElements();
+		    for(IConfigurationElement c : confElements) {
+		            Object o;
+					try {
+						o = c.createExecutableExtension("class");
+						System.out.println(((NewMetric)o).metricName());
+			            //((ExportMetrix)o).exportMetrix();
+						
+						
+					} catch (CoreException e1) {
+						e1.printStackTrace();
+					}
+		            
+		            
+		            
+		        
+		    }
+		}
+	}
 	
 	
 }

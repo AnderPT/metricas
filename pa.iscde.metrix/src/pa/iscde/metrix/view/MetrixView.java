@@ -93,7 +93,7 @@ public class MetrixView implements PidescoView {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+				new MetrixExtension().newMetricExtension();
 			}
 		
 			@Override

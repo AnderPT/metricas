@@ -1,14 +1,14 @@
 package pa.iscde.metrix.extensibility;
 
-import org.eclipse.swt.widgets.List;
+import java.util.Collection;
 
 public interface NewMetric {
 	
-	String metricName();
+	public String metricName();
 	
-	TypeNewMetric typeMetric();
+	public TypeNewMetric typeMetric();
 	
-	List targetMetrics();
+	public Collection<String> targetMetrics();
 	
 	
 
