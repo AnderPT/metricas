@@ -63,7 +63,7 @@ public class MetrixExtension {
 		        }
 		    }
 		}
-	}
+	} 
 
 	public void newMetricExtension() {
 		IExtension[] extensions = extensionPointExportNewMetric.getExtensions();
