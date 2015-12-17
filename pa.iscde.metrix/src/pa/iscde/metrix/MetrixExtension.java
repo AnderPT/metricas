@@ -40,16 +40,40 @@ public class MetrixExtension {
 		for(IExtension e : extensions) {
 			System.out.println("PASSOU");
 			
-			String fileName = System.getProperty("user.home")+"/student.csv";
+		
 			
-			System.out.println("Write CSV file:");
-			CsvFileWriter.writeCsvFile(fileName);
-			
-		   /* IConfigurationElement[] confElements = e.getConfigurationElements();
+		   IConfigurationElement[] confElements = e.getConfigurationElements();
 		    for(IConfigurationElement c : confElements) {
 		        try {
 		            Object o = c.createExecutableExtension("class");
-		            System.out.println(((ExportMetrix)o).exportMetrix());
+		            
+		            String fileName;
+		            		            
+		            switch (((ExportMetrix)o).exportMetrix().toString()) {
+		            case "CSV":
+		            	 fileName = System.getProperty("user.home")+"/metrix.csv";
+						
+						System.out.println("Write CSV file:");
+						CsvFileWriter.writeCsvFile(fileName);
+		                break;
+		            case "HTML":
+		            
+		            	 fileName = System.getProperty("user.home")+"/metrix.html";
+						
+						System.out.println("Write HTML file:");
+						HtmlFileWrite.writeHtmlFile(fileName);
+					
+		            break;
+		            
+		            default:
+		            	
+		            	System.out.println("exportMetrix vazio");
+		            	break;
+		            }
+		            
+		        	
+		            
+		            /*
 		            //((ExportMetrix)o).exportMetrix();
 		            
 		            //GERAR CSV
@@ -66,13 +90,13 @@ public class MetrixExtension {
 		               System.out.println(mentry.getValue());
 		            }
 		            
-		            
+		            */
 		            
 		        } catch (CoreException e1) {
 		            // TODO Auto- catch block
 		            e1.printStackTrace();
 		        }
-		    }*/
+		    }
 		}
 	} 
 
