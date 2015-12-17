@@ -3,7 +3,6 @@ package pa.iscde.metrix.activator;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-import pt.iscte.pidesco.javaeditor.internal.JavaEditorActivator;
 import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
 
