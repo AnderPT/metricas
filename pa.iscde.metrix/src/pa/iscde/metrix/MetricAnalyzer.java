@@ -24,6 +24,9 @@ public class MetricAnalyzer {
 	 */
 	
 	public MetricAnalyzer(File file) {
+		
+		
+		
 		putInicialMetrics();
 		
 		LineNumberReader lnr;

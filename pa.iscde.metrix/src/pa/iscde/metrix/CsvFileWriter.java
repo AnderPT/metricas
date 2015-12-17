@@ -4,6 +4,10 @@ package pa.iscde.metrix;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 
 
@@ -15,7 +19,7 @@ public class CsvFileWriter {
 	
 	
 
-	public static void writeCsvFile(String fileName) {
+	public static void writeCsvFile(String fileName, HashMap<String, Integer> hashMap) {
 		
 		
 		
@@ -26,15 +30,21 @@ public class CsvFileWriter {
 			
 			
 			//Write a CSV file
-							
+			
+			
+			
+			Set set = hashMap.entrySet();
+            Iterator iterator = set.iterator();
+            while(iterator.hasNext()) {
+               Map.Entry mentry = (Map.Entry)iterator.next();
+               
+               fileWriter.append((CharSequence) mentry.getKey());
+               fileWriter.append(COMMA_DELIMITER);
+               fileWriter.append(" " +mentry.getValue());
+               fileWriter.append(NEW_LINE_SEPARATOR);
+            }
 				
-				fileWriter.append("HHHH");
-				fileWriter.append(COMMA_DELIMITER);
-				fileWriter.append("IIII");
-				fileWriter.append(COMMA_DELIMITER);
-				fileWriter.append("PPPP");
-				fileWriter.append(NEW_LINE_SEPARATOR);
-		
+			
 			
 			System.out.println("CSV file was created successfully !!!");
 			

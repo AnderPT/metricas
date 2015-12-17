@@ -36,6 +36,7 @@ public class MetrixView implements PidescoView {
 	private TableTree tableTree;
 	private String[] items = {"Current File","Current Project"};
 	private Combo combo;
+	private MetricAnalyzer metric;
 	
 	public MetrixView() {
 	}
@@ -76,7 +77,7 @@ public class MetrixView implements PidescoView {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				new MetrixExtension().exportMetricExtension();
+				new MetrixExtension(metric).exportMetricExtension();
 			}
 			
 			@Override
@@ -93,7 +94,7 @@ public class MetrixView implements PidescoView {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				new MetrixExtension().newMetricExtension();
+				new MetrixExtension(metric).newMetricExtension();
 			}
 		
 			@Override
@@ -148,7 +149,7 @@ public class MetrixView implements PidescoView {
 	}
 
 	private void analyzeMetrics(File file) {
-		MetricAnalyzer metric = new MetricAnalyzer(file);
+		 metric = new MetricAnalyzer(file);
 		cv = new ClassVisitor(metric);
 		editorServices.parseFile(file, cv);
 		tableTree.updateTable(metric);

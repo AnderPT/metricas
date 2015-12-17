@@ -20,12 +20,16 @@ public class MetrixExtension {
 	
 	private IExtensionPoint extensionPointExport;
 	private IExtensionPoint extensionPointExportNewMetric;
+	private MetricAnalyzer metric;
 
 	/**
+	 * @param metric 
 	 * 
 	 */
 	
-	public MetrixExtension() {
+	public MetrixExtension(MetricAnalyzer metric) {
+		
+		this.metric = metric;
 		IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
 		extensionPointExport = extRegistry.getExtensionPoint("pa.iscde.metrixexport");
 		extensionPointExportNewMetric = extRegistry.getExtensionPoint("pa.iscde.addmetricext");
@@ -54,16 +58,16 @@ public class MetrixExtension {
 		            	 fileName = System.getProperty("user.home")+"/metrix.csv";
 						
 						System.out.println("Write CSV file:");
-						CsvFileWriter.writeCsvFile(fileName);
+						CsvFileWriter.writeCsvFile(fileName, metric.getMetrics());
 		                break;
 		            case "HTML":
 		            
 		            	 fileName = System.getProperty("user.home")+"/metrix.html";
 						
 						System.out.println("Write HTML file:");
-						HtmlFileWrite.writeHtmlFile(fileName);
+						HtmlFileWrite.writeHtmlFile(fileName, metric.getMetrics());
 					
-		            break;
+						break;
 		            
 		            default:
 		            	
