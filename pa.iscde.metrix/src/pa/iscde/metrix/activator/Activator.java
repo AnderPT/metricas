@@ -14,7 +14,7 @@ public class Activator implements BundleActivator {
 
 	@Override
 	public void start(BundleContext context) throws Exception {
-		editorService = JavaEditorActivator.getInstance().getServices();
+		editorService = context.getService(context.getServiceReference(JavaEditorServices.class));
 		projectService = context.getService(context.getServiceReference(ProjectBrowserServices.class));
 	}
 
