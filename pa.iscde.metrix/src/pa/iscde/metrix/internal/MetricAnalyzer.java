@@ -57,8 +57,8 @@ public class MetricAnalyzer {
 	 * @param string
 	 * @return metrics
 	 */
-	public String getNumbMetric(String string) {
-		return metrics.get(string) + "";
+	public int getNumbMetric(String string) {
+		return metrics.get(string);
 	}
 
 	/**
@@ -90,6 +90,10 @@ public class MetricAnalyzer {
 	
 	public String[] getInicialMetrics() {
 		return inicialMetrics;
+	}
+
+	public void addNewMetric(String name, int value) {
+		System.out.println("Colocou metrica " + name + " com value " + value);
 	}
 	
 	

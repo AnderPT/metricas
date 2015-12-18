@@ -114,8 +114,9 @@ public class MetrixExtension {
 					try {
 						o = c.createExecutableExtension("class");
 						System.out.println(((NewMetric)o).metricName());
-			            //((ExportMetrix)o).exportMetrix();
-						
+						new NewMetricCalc(((NewMetric)o).metricName(),((NewMetric)o).typeMetric(),
+								((NewMetric)o).targetMetrics(), metric).calcMetric();;
+		
 						
 					} catch (CoreException e1) {
 						e1.printStackTrace();
