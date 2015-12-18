@@ -17,10 +17,10 @@ import org.eclipse.swt.widgets.Composite;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
-import pa.iscde.metrix.ClassVisitor;
-import pa.iscde.metrix.MetricAnalyzer;
-import pa.iscde.metrix.MetrixExtension;
 import pa.iscde.metrix.activator.Activator;
+import pa.iscde.metrix.internal.ClassVisitor;
+import pa.iscde.metrix.internal.MetricAnalyzer;
+import pa.iscde.metrix.internal.MetrixExtension;
 import pt.iscte.pidesco.extensibility.PidescoView;
 import pt.iscte.pidesco.javaeditor.service.JavaEditorListener;
 import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;

@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
-import pa.iscde.metrix.MetricAnalyzer;
+import pa.iscde.metrix.internal.MetricAnalyzer;
 
 public class TableTree {
 	

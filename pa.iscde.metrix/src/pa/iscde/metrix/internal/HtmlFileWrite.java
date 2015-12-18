@@ -1,4 +1,4 @@
-package pa.iscde.metrix;
+package pa.iscde.metrix.internal;
 
 import java.io.FileWriter;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package pa.iscde.metrix;
+package pa.iscde.metrix.internal;
 
 import java.util.Iterator;
 import java.util.Map;

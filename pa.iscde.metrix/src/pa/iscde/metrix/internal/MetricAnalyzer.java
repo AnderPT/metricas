@@ -1,4 +1,4 @@
-package pa.iscde.metrix;
+package pa.iscde.metrix.internal;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -91,5 +91,7 @@ public class MetricAnalyzer {
 	public String[] getInicialMetrics() {
 		return inicialMetrics;
 	}
+	
+	
 
 }

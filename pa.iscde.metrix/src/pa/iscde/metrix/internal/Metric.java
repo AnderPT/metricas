@@ -1,4 +1,4 @@
-package pa.iscde.metrix;
+package pa.iscde.metrix.internal;
 
 public class Metric {
 	

@@ -1,4 +1,4 @@
-package pa.iscde.metrix;
+package pa.iscde.metrix.internal;
 
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.BlockComment;
