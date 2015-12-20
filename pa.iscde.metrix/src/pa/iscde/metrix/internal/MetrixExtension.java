@@ -11,8 +11,7 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
-
-
+import pa.iscde.metrix.extensibility.DefaultMetrics;
 import pa.iscde.metrix.extensibility.ExportMetrix;
 import pa.iscde.metrix.extensibility.NewMetric;
 
@@ -115,7 +114,7 @@ class MetrixExtension {
 						o = c.createExecutableExtension("class");
 						System.out.println(((NewMetric)o).metricName());
 						new NewMetricCalc(((NewMetric)o).metricName(),((NewMetric)o).typeMetric(),
-								((NewMetric)o).targetMetrics(), metric).calcMetric();;
+								((NewMetric)o).targetMetrics(DefaultMetrics.values()), metric).calcMetric();;
 		
 						
 					} catch (CoreException e1) {

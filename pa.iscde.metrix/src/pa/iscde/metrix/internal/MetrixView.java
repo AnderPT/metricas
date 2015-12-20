@@ -1,6 +1,7 @@
 package pa.iscde.metrix.internal;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
@@ -34,14 +35,14 @@ public class MetrixView implements PidescoView {
 	private String[] items = {"Current File","Current Project"};
 	private Combo combo;
 	private MetricAnalyzer metric;
-	
-	public MetrixView() {
-	}
+	private HashMap<String, Integer> metricsList;
 
 	@Override
 	public void createContents(Composite viewArea, Map<String, Image> imageMap) {
 		
 		Multimap<String, String > map =  ArrayListMultimap.create();
+		metric = new MetricAnalyzer();
+		metricsList = metric.initializeMap();
 		getServices();
 		viewArea.setLayout(new RowLayout());
 
@@ -138,7 +139,7 @@ public class MetrixView implements PidescoView {
 	}
 
 	private void analyzeMetrics(File file) {
-		 metric = new MetricAnalyzer(file);
+		 metric = new MetricAnalyzer(file, this);
 		cv = new ClassVisitor(metric);
 		editorServices.parseFile(file, cv);
 		tableTree.updateTable(metric);
@@ -150,6 +151,16 @@ public class MetrixView implements PidescoView {
 		projectServices = Activator.getProjectService();
 
 	}
+
+	public HashMap<String, Integer> getMetricsList() {
+		return metricsList;
+	}
+
+	public void addMetric(String name, int value) {
+		metricsList.put(name, value);
+	}
+	
+	
 	
 	
 }

@@ -17,14 +17,16 @@ class MetricAnalyzer {
 	private HashMap<String, Integer> metrics = new HashMap<String, Integer>();
 	private String[] inicialMetrics = new String[] {"Number of Lines", "Number of Methods", "Number of Constructors"
 			, "Number of Fields", "Number of Comments", "Number of Characters" , "Number of Packages"};
+	private MetrixView view;
 
 	/**
 	 * 
 	 * @param file
 	 */
 	
-	protected MetricAnalyzer(File file) {
-		putInicialMetrics();
+	protected MetricAnalyzer(File file, MetrixView view) {
+		this.view = view;
+		metrics = view.getMetricsList();
 		
 		LineNumberReader lnr;
 		try {
@@ -42,10 +44,13 @@ class MetricAnalyzer {
 		
 	}
 	
-	private void putInicialMetrics() {
+	public MetricAnalyzer() {}
+
+	private HashMap<String, Integer> putInicialMetrics() {
 		for (String m : inicialMetrics) {
 			metrics.put(m, 0);
 		}
+		return metrics;
 	}
 
 	
@@ -90,7 +95,12 @@ class MetricAnalyzer {
 	}
 
 	protected void addNewMetric(String name, int value) {
+		view.addMetric(name,value);
 		System.out.println("Colocou metrica " + name + " com value " + value);
+	}
+
+	protected HashMap<String, Integer> initializeMap() {
+		return putInicialMetrics();
 	}
 	
 	

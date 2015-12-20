@@ -32,7 +32,7 @@ public interface NewMetric {
 	 * Deverá retornar uma array com pelo menos size > 1
 	 * @return 
 	 */
-	public ArrayList<String> targetMetrics();
+	public ArrayList<DefaultMetrics> targetMetrics(DefaultMetrics[] possibleMetrics);
 	
 	
 
