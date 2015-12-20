@@ -7,24 +7,16 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-public class HtmlFileWrite {
+class HtmlFileWrite {
 	
 		//Delimiter used in HTML file
 	
-		
-
-				
 		private static final String BEGIN_TR = "<tr>";
 		private static final String END_TR = "</tr>";
 		private static final String BEGIN_TD = "<td>";
 		private static final String END_TD = "</td>";
 		
-		
-		
-
-		public static void writeHtmlFile(String fileName, HashMap<String, Integer> hashMap) {
-			
-			
+		protected static void writeHtmlFile(String fileName, HashMap<String, Integer> hashMap) {
 			
 			FileWriter fileWriter = null;
 					

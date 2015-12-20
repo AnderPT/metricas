@@ -12,18 +12,13 @@ import org.eclipse.jdt.core.dom.PackageDeclaration;
  * 
  */
 
-public class ClassVisitor extends ASTVisitor {
+class ClassVisitor extends ASTVisitor {
 	
 	private MetricAnalyzer view;
 	
-	
 	/**
 	 * 
-	 * @param node
-	 * @return true
 	 */
-	
-	
 	@Override
 	public boolean visit(BlockComment node) {
 		System.out.println("AAAA");

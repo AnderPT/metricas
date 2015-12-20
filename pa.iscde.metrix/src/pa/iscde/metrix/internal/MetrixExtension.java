@@ -16,7 +16,7 @@ import org.eclipse.core.runtime.Platform;
 import pa.iscde.metrix.extensibility.ExportMetrix;
 import pa.iscde.metrix.extensibility.NewMetric;
 
-public class MetrixExtension {
+class MetrixExtension {
 	
 	private IExtensionPoint extensionPointExport;
 	private IExtensionPoint extensionPointExportNewMetric;
@@ -27,7 +27,7 @@ public class MetrixExtension {
 	 * 
 	 */
 	
-	public MetrixExtension(MetricAnalyzer metric) {
+	protected MetrixExtension(MetricAnalyzer metric) {
 		
 		this.metric = metric;
 		IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
@@ -39,7 +39,7 @@ public class MetrixExtension {
 	/**
 	 * 
 	 */
-	public void exportMetricExtension() {
+	protected void exportMetricExtension() {
 		IExtension[] extensions = extensionPointExport.getExtensions();
 		for(IExtension e : extensions) {
 			System.out.println("PASSOU");
@@ -104,7 +104,7 @@ public class MetrixExtension {
 		}
 	} 
 
-	public void newMetricExtension() {
+	protected void newMetricExtension() {
 		IExtension[] extensions = extensionPointExportNewMetric.getExtensions();
 		for(IExtension e : extensions) {
 			System.out.println("PASSOU");

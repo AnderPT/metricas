@@ -11,17 +11,13 @@ import java.util.Set;
 
 
 
-public class CsvFileWriter {
+class CsvFileWriter {
 	
 	//Delimiter used in CSV file
 	private static final String COMMA_DELIMITER = ",";
 	private static final String NEW_LINE_SEPARATOR = "\n";
 	
-	
-
-	public static void writeCsvFile(String fileName, HashMap<String, Integer> hashMap) {
-		
-		
+	protected static void writeCsvFile(String fileName, HashMap<String, Integer> hashMap) {
 		
 		FileWriter fileWriter = null;
 				
@@ -30,8 +26,6 @@ public class CsvFileWriter {
 			
 			
 			//Write a CSV file
-			
-			
 			
 			Set set = hashMap.entrySet();
             Iterator iterator = set.iterator();

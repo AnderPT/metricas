@@ -1,4 +1,4 @@
-package pa.iscde.metrix.view;
+package pa.iscde.metrix.internal;
 
 import java.io.File;
 import java.util.Map;
@@ -18,9 +18,6 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import pa.iscde.metrix.activator.Activator;
-import pa.iscde.metrix.internal.ClassVisitor;
-import pa.iscde.metrix.internal.MetricAnalyzer;
-import pa.iscde.metrix.internal.MetrixExtension;
 import pt.iscte.pidesco.extensibility.PidescoView;
 import pt.iscte.pidesco.javaeditor.service.JavaEditorListener;
 import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;
@@ -104,9 +101,8 @@ public class MetrixView implements PidescoView {
 		});
 		
 		tableTree = new TableTree(viewArea);
-		tableTree.addColumn("Metrix");
-		tableTree.addColumn("Value");
-		tableTree.addItems();
+		tableTree.init("Metrix", "Value");
+		
 		editorServices.addListener(new JavaEditorListener.Adapter(){
 			@Override
 			public void fileOpened(File file) {				
@@ -119,7 +115,7 @@ public class MetrixView implements PidescoView {
 		
 	}
 	
-	protected void getOpenedProjectMetrics(PackageElement root) {
+	private void getOpenedProjectMetrics(PackageElement root) {
 			
 		if (root.hasChildren()) {
 			for (SourceElement child : root.getChildren()) {
@@ -134,14 +130,7 @@ public class MetrixView implements PidescoView {
 			}
 		}
 		tableTree.updatePackages();
-		}
-	
-//	private void analyzeClass(File file, PackageElement root) {
-//		MetricAnalyzer metric = new MetricAnalyzer(file);
-//		cv = new ClassVisitor(metric);
-//		editorServices.parseFile(file, cv);
-//		tableTree.updateTable(metric);
-//	}
+	}
 
 	private void getOpenedFileMetrics() {
 		File file = editorServices.getOpenedFile();

@@ -1,4 +1,4 @@
-package pa.iscde.metrix.view;
+package pa.iscde.metrix.internal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,9 +10,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
-import pa.iscde.metrix.internal.MetricAnalyzer;
-
-public class TableTree {
+class TableTree {
 	
 	private Tree tree;
 	private String[] metrics = new String[] {"Number of Lines", "Number of Methods", "Number of Constructors"
@@ -22,18 +20,24 @@ public class TableTree {
 	private ArrayList<String> packages = new ArrayList<String>();
 
 
-	public TableTree(Composite viewArea) {
+	protected TableTree(Composite viewArea) {
 		 tree = new Tree(viewArea, SWT.BORDER | SWT.FILL | SWT.FILL);
 		 tree.setHeaderVisible(true);
 	}
 	
-	public void addColumn(String name) {
+	protected void init(String metricColumn, String valueColumn) {
+		addColumn(metricColumn);
+		addColumn(valueColumn);
+		addItems();
+	}
+	
+	private void addColumn(String name) {
 		TreeColumn column1 = new TreeColumn(tree, SWT.LEFT);
 	    column1.setText(name);
 	    column1.setWidth(300);
 	}
 	
-	public void addItems() {
+	private void addItems() {
 		for (int i = 0; i < metrics.length ; i++) {
 		      TreeItem item = new TreeItem(tree, SWT.NONE);
 		      item.setText(new String[] { metrics[i], "" + 0 });
@@ -41,11 +45,7 @@ public class TableTree {
 		    }
 	}
 	
-	public Control getTree() {
-		return tree;
-	}
-
-	public void updateTable(MetricAnalyzer metric) {
+	protected void updateTable(MetricAnalyzer metric) {
 		tree.clearAll(true);
 		HashMap< String, Integer> map = metric.getMetrics();
 		for (int i = 0; i < map.size(); i++) {
@@ -54,7 +54,7 @@ public class TableTree {
 		
 	}
 
-	public void addSubtring(String path, String root) {
+	protected void addSubtring(String path, String root) {
 		if (root.equals("")) {
 			System.out.println("*" + root + "*");
 			packages.add(path);
@@ -78,7 +78,7 @@ public class TableTree {
 		}
 	}
 
-	public void updatePackages() {
+	protected void updatePackages() {
 		tree.clearAll(true);
 		for (int i = 0; i < metrics.length; i++) {
 			(listItems.get(i)).setText(new String[] { metrics[i], "" });
@@ -87,6 +87,8 @@ public class TableTree {
 			}
 		}
 	}
+
+	
 
 	
 

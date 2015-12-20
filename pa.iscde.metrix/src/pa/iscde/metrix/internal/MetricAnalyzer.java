@@ -12,7 +12,7 @@ import java.util.HashMap;
  * 
  */
 
-public class MetricAnalyzer {
+class MetricAnalyzer {
 	
 	private HashMap<String, Integer> metrics = new HashMap<String, Integer>();
 	private String[] inicialMetrics = new String[] {"Number of Lines", "Number of Methods", "Number of Constructors"
@@ -23,10 +23,7 @@ public class MetricAnalyzer {
 	 * @param file
 	 */
 	
-	public MetricAnalyzer(File file) {
-		
-		
-		
+	protected MetricAnalyzer(File file) {
 		putInicialMetrics();
 		
 		LineNumberReader lnr;
@@ -57,7 +54,7 @@ public class MetricAnalyzer {
 	 * @param string
 	 * @return metrics
 	 */
-	public int getNumbMetric(String string) {
+	protected int getNumbMetric(String string) {
 		return metrics.get(string);
 	}
 
@@ -66,7 +63,7 @@ public class MetricAnalyzer {
 	 * @param m
 	 */
 	
-	public void incremetMetric(String m) {
+	protected void incremetMetric(String m) {
 		int v = metrics.get(m) + 1;
 		
 		metrics.remove(m);
@@ -79,7 +76,7 @@ public class MetricAnalyzer {
 	 * @return metrics
 	 */
 	
-	public HashMap<String, Integer> getMetrics() {
+	protected HashMap<String, Integer> getMetrics() {
 		return metrics;
 	}
 	
@@ -88,11 +85,11 @@ public class MetricAnalyzer {
 	 * @return inicialMetrics
 	 */
 	
-	public String[] getInicialMetrics() {
+	protected String[] getInicialMetrics() {
 		return inicialMetrics;
 	}
 
-	public void addNewMetric(String name, int value) {
+	protected void addNewMetric(String name, int value) {
 		System.out.println("Colocou metrica " + name + " com value " + value);
 	}
 	

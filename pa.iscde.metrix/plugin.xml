@@ -9,7 +9,7 @@
          name="Metrix"
          point="pt.iscte.pidesco.view">
       <view
-            class="pa.iscde.metrix.view.MetrixView"
+            class="pa.iscde.metrix.internal.MetrixView"
             icon="smiley.png">
       </view>
    </extension>
