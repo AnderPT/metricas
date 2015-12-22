@@ -2,10 +2,12 @@ package pa.iscde.metrix.internal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
@@ -48,9 +50,15 @@ class TableTree {
 	protected void updateTable(MetricAnalyzer metric) {
 		tree.clearAll(true);
 		HashMap< String, Integer> map = metric.getMetrics();
-		for (int i = 0; i < map.size(); i++) {
-			(listItems.get(i)).setText(new String[] { metric.getInicialMetrics()[i], map.get(metric.getInicialMetrics()[i]) + "", });
+		int i = 0;
+		for ( Map.Entry<String, Integer> entry : map.entrySet()) {
+			(listItems.get(i)).setText(new String[] { entry.getKey(), entry.getValue() + "", });
+			i++;
+			System.out.println(entry.getKey() + " CCCCCC " + entry.getValue() );
 		}
+//		for (int i = 0; i < map.size(); i++) {
+//			(listItems.get(i)).setText(new String[] { metric.getInicialMetrics()[i], map.get(metric.getInicialMetrics()[i]) + "", });
+//		}
 		
 	}
 
@@ -86,6 +94,12 @@ class TableTree {
 				s.setText(new String[] {s.getText(0), ""});
 			}
 		}
+	}
+
+	protected void addNewMetric(String name, int value) {
+		 TreeItem item = new TreeItem(tree, SWT.NONE);
+	      item.setText(new String[] {name, "" + value });
+	      listItems.add(item);
 	}
 
 	

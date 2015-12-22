@@ -158,6 +158,8 @@ public class MetrixView implements PidescoView {
 
 	public void addMetric(String name, int value) {
 		metricsList.put(name, value);
+		tableTree.addNewMetric(name, value);
+		tableTree.updateTable(metric);
 	}
 	
 	
