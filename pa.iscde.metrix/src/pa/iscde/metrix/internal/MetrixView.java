@@ -1,6 +1,7 @@
 package pa.iscde.metrix.internal;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,11 +37,13 @@ public class MetrixView implements PidescoView {
 	private Combo combo;
 	private MetricAnalyzer metric;
 	private HashMap<String, Integer> metricsList;
+	private Multimap<String, String > map;
+	private ArrayList<String> listPackages = new ArrayList<String>();
 
 	@Override
 	public void createContents(Composite viewArea, Map<String, Image> imageMap) {
 		
-		Multimap<String, String > map =  ArrayListMultimap.create();
+		map =  ArrayListMultimap.create();
 		metric = new MetricAnalyzer();
 		metricsList = metric.initializeMap();
 		getServices();
@@ -61,7 +64,8 @@ public class MetrixView implements PidescoView {
 
 				} else if (combo.getText().equals("Current Project")) {
 					PackageElement root = projectServices.getRootPackage();
-					getOpenedProjectMetrics(root);
+					ArrayList<String> packages  = getListPackages(root, "");
+					tableTree.updatePackages(map, packages);
 				}
 			}
 		});
@@ -103,6 +107,7 @@ public class MetrixView implements PidescoView {
 		
 		tableTree = new TableTree(viewArea);
 		tableTree.init("Metrix", "Value");
+		//analyzeMetrics(editorServices.getOpenedFile());
 		
 		editorServices.addListener(new JavaEditorListener.Adapter(){
 			@Override
@@ -116,21 +121,29 @@ public class MetrixView implements PidescoView {
 		
 	}
 	
-	private void getOpenedProjectMetrics(PackageElement root) {
-			
+	private ArrayList<String> getListPackages(PackageElement root, String extension) {
+		
 		if (root.hasChildren()) {
+			if (!root.equals(projectServices.getRootPackage())) {
+				listPackages.add(extension);
+			}
 			for (SourceElement child : root.getChildren()) {
+				String newExt = extension; 
+				if (!extension.equals("")) {
+					newExt += ".";
+				}
+				newExt += child.getName();
 				if (child.isPackage()) {
-					getOpenedProjectMetrics((PackageElement)child);
-					System.out.println("Package: " + child.getName());
-
+					getListPackages((PackageElement)child, newExt);
 				} else if (child.isClass()) {
-//					analyzeClass(child.getFile(), root);
-					System.out.println("Class: " + child.getName());
+					if ( extension.equals("") ){
+						extension = "default";
+					}
+					map.put(extension, child.getName());
 				}
 			}
 		}
-		tableTree.updatePackages();
+		return listPackages;
 	}
 
 	private void getOpenedFileMetrics() {

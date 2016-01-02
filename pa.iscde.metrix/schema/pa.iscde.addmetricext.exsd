@@ -49,13 +49,6 @@
 
    <element name="item">
       <complexType>
-         <attribute name="name" type="string">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
-            </annotation>
-         </attribute>
          <attribute name="class" type="string">
             <annotation>
                <documentation>
@@ -64,6 +57,13 @@
                <appinfo>
                   <meta.attribute kind="java" basedOn=":pa.iscde.metrix.extensibility.NewMetric"/>
                </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
             </annotation>
          </attribute>
       </complexType>

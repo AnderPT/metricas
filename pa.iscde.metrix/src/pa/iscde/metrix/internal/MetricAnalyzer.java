@@ -96,7 +96,6 @@ class MetricAnalyzer {
 
 	protected void addNewMetric(String name, int value) {
 		view.addMetric(name,value);
-		System.out.println("Colocou metrica " + name + " com value " + value);
 	}
 
 	protected HashMap<String, Integer> initializeMap() {

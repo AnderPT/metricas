@@ -1,6 +1,7 @@
 package pa.iscde.metrix.extensibility;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Representa uma nova metrica que pode ser adicionada á lista de metricas
@@ -34,6 +35,11 @@ public interface NewMetric {
 	 */
 	public ArrayList<DefaultMetrics> targetMetrics(DefaultMetrics[] possibleMetrics);
 	
-	
+	/**
+	 * Metodo dado um Hash Map com as metricas e valores, podera calcular
+	 * de forma que entender o valor da nova metrica.
+	 * @return deve retornar o valor da nova metrica
+	 */
+	public int calcNewMetric (HashMap<String, Integer> metrics );
 
 }

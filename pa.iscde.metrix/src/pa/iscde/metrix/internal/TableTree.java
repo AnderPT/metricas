@@ -5,12 +5,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
+
+import com.google.common.collect.Multimap;
 
 class TableTree {
 	
@@ -49,12 +52,18 @@ class TableTree {
 	
 	protected void updateTable(MetricAnalyzer metric) {
 		tree.clearAll(true);
+		listItems.clear();
+		try {
+		tree.removeAll();
+		} catch (SWTException e) {
+			
+		}
+		addItems();
 		HashMap< String, Integer> map = metric.getMetrics();
 		int i = 0;
 		for ( Map.Entry<String, Integer> entry : map.entrySet()) {
 			(listItems.get(i)).setText(new String[] { entry.getKey(), entry.getValue() + "", });
 			i++;
-			System.out.println(entry.getKey() + " CCCCCC " + entry.getValue() );
 		}
 //		for (int i = 0; i < map.size(); i++) {
 //			(listItems.get(i)).setText(new String[] { metric.getInicialMetrics()[i], map.get(metric.getInicialMetrics()[i]) + "", });
@@ -86,12 +95,24 @@ class TableTree {
 		}
 	}
 
-	protected void updatePackages() {
+	protected void updatePackages(Multimap<String, String> map, ArrayList<String> packages) {
 		tree.clearAll(true);
+		
+		listItems.clear();
+		try {
+			tree.removeAll();
+		} catch (SWTException e) {}
+		addItems();
 		for (int i = 0; i < metrics.length; i++) {
-			(listItems.get(i)).setText(new String[] { metrics[i], "" });
-			for (TreeItem s : listPackages) {
-				s.setText(new String[] {s.getText(0), ""});
+			TreeItem item = (listItems.get(i));
+			item.setText(new String[] { metrics[i], "" });
+			for (String p : packages) {
+				TreeItem packageItem = new TreeItem(item, SWT.NONE);
+				packageItem.setText(p);
+				for (String key : map.get(p)) {
+					TreeItem classItem = new TreeItem(packageItem, SWT.NONE);
+					classItem.setText(key);
+				}
 			}
 		}
 	}
