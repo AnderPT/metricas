@@ -39,67 +39,26 @@ class MetrixExtension {
 	 * 
 	 */
 	protected void exportMetricExtension() {
+		
 		IExtension[] extensions = extensionPointExport.getExtensions();
 		for(IExtension e : extensions) {
-			System.out.println("PASSOU");
-			
-		
-			
-		   IConfigurationElement[] confElements = e.getConfigurationElements();
+		    IConfigurationElement[] confElements = e.getConfigurationElements();
+		    System.out.println("cnf " + confElements.length);
 		    for(IConfigurationElement c : confElements) {
-		        try {
-		            Object o = c.createExecutableExtension("class");
-		            
-		            String fileName;
-		            		            
-		            switch (((ExportMetrix)o).exportMetrix().toString()) {
-		            case "CSV":
-		            	 fileName = System.getProperty("user.home")+"/metrix.csv";
+		    							System.out.println("ENTROU");
+
+		            Object o;
+					try {
+						o = c.createExecutableExtension("class");
+						((ExportMetrix)o).exportFile(metric.getMetrics());
 						
-						System.out.println("Write CSV file:");
-						CsvFileWriter.writeCsvFile(fileName, metric.getMetrics());
-		                break;
-		            case "HTML":
-		            
-		            	 fileName = System.getProperty("user.home")+"/metrix.html";
-						
-						System.out.println("Write HTML file:");
-						HtmlFileWrite.writeHtmlFile(fileName, metric.getMetrics());
-					
-						break;
-		            
-		            default:
-		            	
-		            	System.out.println("exportMetrix vazio");
-		            	break;
-		            }
-		            
-		        	
-		            
-		            /*
-		            //((ExportMetrix)o).exportMetrix();
-		            
-		            //GERAR CSV
-		            ClassHashMetrix cm = new ClassHashMetrix();
-		            cm.init();
-		            System.out.println(cm.getHmap().size());
-		            //System.out.println();
-		            
-		            Set set = cm.getHmap().entrySet();
-		            Iterator iterator = set.iterator();
-		            while(iterator.hasNext()) {
-		               Map.Entry mentry = (Map.Entry)iterator.next();
-		               System.out.print("Metrica is: "+ mentry.getKey() + " & Value is: ");
-		               System.out.println(mentry.getValue());
-		            }
-		            
-		            */
-		            
-		        } catch (CoreException e1) {
-		            // TODO Auto- catch block
-		            e1.printStackTrace();
-		        }
+					} catch (CoreException e1) {
+						e1.printStackTrace();
+					}
+		                
+		        
 		    }
+ 
 		}
 	} 
 

@@ -57,7 +57,7 @@ class MetricAnalyzer {
          Iterator iterator = set.iterator();
          while(iterator.hasNext()) {
             Map.Entry mentry = (Map.Entry)iterator.next();
-            metrics.replace((String) mentry.getKey(), 0);
+            //metrics.replace((String) mentry.getKey(), 0);
          }
 	}
 
