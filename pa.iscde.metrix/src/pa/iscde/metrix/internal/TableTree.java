@@ -95,23 +95,20 @@ class TableTree {
 		}
 	}
 
-	protected void updatePackages(Multimap<String, String> map, ArrayList<String> packages) {
+	protected void updatePackages(Multimap<String, MetricAnalyzer> map, ArrayList<String> packages) {
 		tree.clearAll(true);
-		
 		listItems.clear();
 		try {
 			tree.removeAll();
 		} catch (SWTException e) {}
 		addItems();
-		for (int i = 0; i < metrics.length; i++) {
-			TreeItem item = (listItems.get(i));
-			item.setText(new String[] { metrics[i], "" });
+		for (TreeItem ti : listItems) {
 			for (String p : packages) {
-				TreeItem packageItem = new TreeItem(item, SWT.NONE);
+				TreeItem packageItem = new TreeItem(ti, SWT.NONE);
 				packageItem.setText(p);
-				for (String key : map.get(p)) {
+				for (MetricAnalyzer key : map.get(p)) {
 					TreeItem classItem = new TreeItem(packageItem, SWT.NONE);
-					classItem.setText(key);
+					classItem.setText( new String[] { key.getClassName() , key.getNumbMetric(ti.getText()) + "" });
 				}
 			}
 		}

@@ -37,8 +37,10 @@ public class MetrixView implements PidescoView {
 	private Combo combo;
 	private MetricAnalyzer metric;
 	private HashMap<String, Integer> metricsList;
-	private Multimap<String, String > map;
+	private Multimap<String, MetricAnalyzer > map;
 	private ArrayList<String> listPackages = new ArrayList<String>();
+	private ArrayList<String> names = new ArrayList<String>();
+	private ArrayList<MetricAnalyzer> values = new ArrayList<MetricAnalyzer>();
 
 	@Override
 	public void createContents(Composite viewArea, Map<String, Image> imageMap) {
@@ -65,7 +67,11 @@ public class MetrixView implements PidescoView {
 				} else if (combo.getText().equals("Current Project")) {
 					PackageElement root = projectServices.getRootPackage();
 					ArrayList<String> packages  = getListPackages(root, "");
+					
+					
 					tableTree.updatePackages(map, packages);
+					packages.clear();
+					map.clear();
 				}
 			}
 		});
@@ -139,10 +145,28 @@ public class MetrixView implements PidescoView {
 					if ( extension.equals("") ){
 						extension = "default";
 					}
-					map.put(extension, child.getName());
+					
+					MetricAnalyzer childAnalizer = new MetricAnalyzer(child.getFile(), this);
+					cv = new ClassVisitor(childAnalizer);
+					editorServices.parseFile(child.getFile(), cv);
+//					System.out.println(child.getName() + " -::- " + childAnalizer.getMetrics().toString() );
+					map.put(extension, childAnalizer);
+					
+					System.out.println("--" + extension + "--");
+					System.out.println(childAnalizer.printMetrics());
+					System.out.println("**********MAPP***************");
+					for (MetricAnalyzer key : map.get(extension)) {
+						System.out.println(key.getClassName());
+						System.out.println(key.getMetrics().toString());
+					}
+					System.out.println("_______________________");
+					names.add(extension);
+					values.add(childAnalizer);
+					
 				}
 			}
 		}
+		
 		return listPackages;
 	}
 
@@ -152,11 +176,10 @@ public class MetrixView implements PidescoView {
 	}
 
 	private void analyzeMetrics(File file) {
-		 metric = new MetricAnalyzer(file, this);
+		metric = new MetricAnalyzer(file, this);
 		cv = new ClassVisitor(metric);
 		editorServices.parseFile(file, cv);
 		tableTree.updateTable(metric);
-	
 	}
 
 	private void getServices() {

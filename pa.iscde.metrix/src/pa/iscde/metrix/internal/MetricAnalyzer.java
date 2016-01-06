@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Class 
@@ -14,6 +17,8 @@ import java.util.HashMap;
 
 class MetricAnalyzer {
 	
+	private String className; 
+	private File file; 
 	private HashMap<String, Integer> metrics = new HashMap<String, Integer>();
 	private String[] inicialMetrics = new String[] {"Number of Lines", "Number of Methods", "Number of Constructors"
 			, "Number of Fields", "Number of Comments", "Number of Characters" , "Number of Packages"};
@@ -25,9 +30,12 @@ class MetricAnalyzer {
 	 */
 	
 	protected MetricAnalyzer(File file, MetrixView view) {
+		this.file = file;
+		this.className = file.getName();
 		this.view = view;
 		metrics = view.getMetricsList();
-		
+		normalizeMetrics();
+
 		LineNumberReader lnr;
 		try {
 			lnr = new LineNumberReader(new FileReader(file));
@@ -44,6 +52,15 @@ class MetricAnalyzer {
 		
 	}
 	
+	private void normalizeMetrics() {
+		 Set set = metrics.entrySet();
+         Iterator iterator = set.iterator();
+         while(iterator.hasNext()) {
+            Map.Entry mentry = (Map.Entry)iterator.next();
+            metrics.replace((String) mentry.getKey(), 0);
+         }
+	}
+
 	public MetricAnalyzer() {}
 
 	private HashMap<String, Integer> putInicialMetrics() {
@@ -59,8 +76,8 @@ class MetricAnalyzer {
 	 * @param string
 	 * @return metrics
 	 */
-	protected int getNumbMetric(String string) {
-		return metrics.get(string);
+	protected int getNumbMetric(String metricName) {
+		return metrics.get(metricName);
 	}
 
 	/**
@@ -101,6 +118,26 @@ class MetricAnalyzer {
 	protected HashMap<String, Integer> initializeMap() {
 		return putInicialMetrics();
 	}
+	
+	public File getFile() {
+		return file;
+	}
+	
+	public String getClassName() {
+		return className;
+	}
+
+	public String printMetrics() {
+		String result= "";
+		Set set = metrics.entrySet();
+        Iterator iterator = set.iterator();
+        while(iterator.hasNext()) {
+           Map.Entry mentry = (Map.Entry)iterator.next();
+           result += "Metrica is: "+ mentry.getKey() + " & Value is: " + mentry.getValue() + "\n";
+        }
+		return result;
+	}
+
 	
 	
 
