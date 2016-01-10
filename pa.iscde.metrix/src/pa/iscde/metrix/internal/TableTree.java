@@ -95,7 +95,7 @@ class TableTree {
 		}
 	}
 
-	protected void updatePackages(Multimap<String, MetricAnalyzer> map, ArrayList<String> packages) {
+	protected void updatePackages(ArrayList<MetricAnalyzer> map, ArrayList<String> packages) {
 		tree.clearAll(true);
 		listItems.clear();
 		try {
@@ -106,9 +106,11 @@ class TableTree {
 			for (String p : packages) {
 				TreeItem packageItem = new TreeItem(ti, SWT.NONE);
 				packageItem.setText(p);
-				for (MetricAnalyzer key : map.get(p)) {
-					TreeItem classItem = new TreeItem(packageItem, SWT.NONE);
-					classItem.setText( new String[] { key.getClassName() , key.getNumbMetric(ti.getText()) + "" });
+				for (MetricAnalyzer classResult : map) {
+					if (classResult.getExtensionPath().equals(p)) {
+						TreeItem classItem = new TreeItem(packageItem, SWT.NONE);
+						classItem.setText( new String[] { classResult.getClassName() , classResult.getNumbMetric(ti.getText()) + "" });
+					}
 				}
 			}
 		}

@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -18,23 +19,19 @@ import java.util.Set;
 class MetricAnalyzer {
 	
 	private String className; 
-	private File file; 
+	private String extensionPath;
 	private HashMap<String, Integer> metrics = new HashMap<String, Integer>();
-	private String[] inicialMetrics = new String[] {"Number of Lines", "Number of Methods", "Number of Constructors"
-			, "Number of Fields", "Number of Comments", "Number of Characters" , "Number of Packages"};
-	private MetrixView view;
+	private MetrixControl metrixController;
 
 	/**
 	 * 
 	 * @param file
 	 */
 	
-	protected MetricAnalyzer(File file, MetrixView view) {
-		this.file = file;
+	protected MetricAnalyzer(File file, MetrixControl metrixController) {
 		this.className = file.getName();
-		this.view = view;
-		metrics = view.getMetricsList();
-		normalizeMetrics();
+		this.metrixController = metrixController;
+		initializeMetrics(metrixController.getMetrics());
 
 		LineNumberReader lnr;
 		try {
@@ -51,26 +48,15 @@ class MetricAnalyzer {
 		}
 		
 	}
+
 	
-	private void normalizeMetrics() {
-		 Set set = metrics.entrySet();
-         Iterator iterator = set.iterator();
-         while(iterator.hasNext()) {
-            Map.Entry mentry = (Map.Entry)iterator.next();
-            //metrics.replace((String) mentry.getKey(), 0);
-         }
-	}
-
-	public MetricAnalyzer() {}
-
-	private HashMap<String, Integer> putInicialMetrics() {
-		for (String m : inicialMetrics) {
-			metrics.put(m, 0);
+	private void initializeMetrics(ArrayList<String> arrayList) {
+		for (String s : arrayList) {
+			metrics.put(s, 0);
 		}
-		return metrics;
 	}
 
-	
+
 	/**
 	 * 
 	 * @param string
@@ -102,25 +88,10 @@ class MetricAnalyzer {
 		return metrics;
 	}
 	
-	/**
-	 * 
-	 * @return inicialMetrics
-	 */
-	
-	protected String[] getInicialMetrics() {
-		return inicialMetrics;
-	}
 
 	protected void addNewMetric(String name, int value) {
-		view.addMetric(name,value);
-	}
-
-	protected HashMap<String, Integer> initializeMap() {
-		return putInicialMetrics();
-	}
-	
-	public File getFile() {
-		return file;
+		metrics.put(name, value);
+		metrixController.addMetric(this);
 	}
 	
 	public String getClassName() {
@@ -136,6 +107,15 @@ class MetricAnalyzer {
            result += "Metrica is: "+ mentry.getKey() + " & Value is: " + mentry.getValue() + "\n";
         }
 		return result;
+	}
+
+	
+	public void setExtensionPath(String extensionPath) {
+		this.extensionPath = extensionPath;
+	}
+	
+	public String getExtensionPath() {
+		return extensionPath;
 	}
 
 	

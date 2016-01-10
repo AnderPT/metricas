@@ -18,7 +18,8 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="item"/>
+            <element ref="New Metric"/>
+            <element ref="New Predefined Metric"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,7 +48,12 @@
       </complexType>
    </element>
 
-   <element name="item">
+   <element name="New Metric">
+      <annotation>
+         <documentation>
+            I
+         </documentation>
+      </annotation>
       <complexType>
          <attribute name="class" type="string">
             <annotation>
@@ -65,6 +71,52 @@
                   
                </documentation>
             </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="New Predefined Metric">
+      <annotation>
+         <documentation>
+            Nesta extenção deve escolher uma um conjunto de metricas e formas de calcular estas por defeito.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="Tipo de calculo das métricas">
+            <annotation>
+               <documentation>
+                  Escolher o tipo de operação que pretende fazer com as métricas escolhidas
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="identifier"/>
+               </appinfo>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="SUBTRACT">
+                  </enumeration>
+                  <enumeration value="ADD">
+                  </enumeration>
+                  <enumeration value="SUM">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+         <attribute name="Metricas">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="identifier"/>
+               </appinfo>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="NUMBER_OF_LINES">
+                  </enumeration>
+               </restriction>
+            </simpleType>
          </attribute>
       </complexType>
    </element>

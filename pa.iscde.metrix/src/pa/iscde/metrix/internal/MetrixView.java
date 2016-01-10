@@ -29,28 +29,23 @@ import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
 
 public class MetrixView implements PidescoView {
 
-	private JavaEditorServices editorServices;
-	private ProjectBrowserServices projectServices;
 	private ClassVisitor cv;
 	private TableTree tableTree;
 	private String[] items = {"Current File","Current Project"};
 	private Combo combo;
 	private MetricAnalyzer metric;
 	private HashMap<String, Integer> metricsList;
-	private Multimap<String, MetricAnalyzer > map;
-	private ArrayList<String> listPackages = new ArrayList<String>();
 	private ArrayList<String> names = new ArrayList<String>();
 	private ArrayList<MetricAnalyzer> values = new ArrayList<MetricAnalyzer>();
+	private MetrixControl metrixController;
 
 	@Override
 	public void createContents(Composite viewArea, Map<String, Image> imageMap) {
 		
-		map =  ArrayListMultimap.create();
-		metric = new MetricAnalyzer();
-		metricsList = metric.initializeMap();
-		getServices();
+		metrixController = new MetrixControl(this);
+		metrixController.init();
+		
 		viewArea.setLayout(new RowLayout());
-
 		Composite bar = new Composite(viewArea, SWT.BORDER_DASH);
 		bar.setLayout(new FillLayout());
 		
@@ -62,16 +57,10 @@ public class MetrixView implements PidescoView {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (combo.getText().equals("Current File")) {
-					getOpenedFileMetrics();
+					metrixController.analyzeMetrics();
 
 				} else if (combo.getText().equals("Current Project")) {
-					PackageElement root = projectServices.getRootPackage();
-					ArrayList<String> packages  = getListPackages(root, "");
-					
-					
-					tableTree.updatePackages(map, packages);
-					packages.clear();
-					map.clear();
+					metrixController.analyzeProjectMetrics();
 				}
 			}
 		});
@@ -113,92 +102,17 @@ public class MetrixView implements PidescoView {
 		
 		tableTree = new TableTree(viewArea);
 		tableTree.init("Metrix", "Value");
-		//analyzeMetrics(editorServices.getOpenedFile());
 		
-		editorServices.addListener(new JavaEditorListener.Adapter(){
-			@Override
-			public void fileOpened(File file) {				
-				super.fileOpened(file);	
-				if (combo.getText().equals("Current File")) {
-					analyzeMetrics(file);
-				}
-			}
-		});
+		metrixController.setEditorServiceListener(combo.getText());
 		
 	}
 	
-	private ArrayList<String> getListPackages(PackageElement root, String extension) {
-		
-		if (root.hasChildren()) {
-			if (!root.equals(projectServices.getRootPackage())) {
-				listPackages.add(extension);
-			}
-			for (SourceElement child : root.getChildren()) {
-				String newExt = extension; 
-				if (!extension.equals("")) {
-					newExt += ".";
-				}
-				newExt += child.getName();
-				if (child.isPackage()) {
-					getListPackages((PackageElement)child, newExt);
-				} else if (child.isClass()) {
-					if ( extension.equals("") ){
-						extension = "default";
-					}
-					
-					MetricAnalyzer childAnalizer = new MetricAnalyzer(child.getFile(), this);
-					cv = new ClassVisitor(childAnalizer);
-					editorServices.parseFile(child.getFile(), cv);
-//					System.out.println(child.getName() + " -::- " + childAnalizer.getMetrics().toString() );
-					map.put(extension, childAnalizer);
-					
-					System.out.println("--" + extension + "--");
-					System.out.println(childAnalizer.printMetrics());
-					System.out.println("**********MAPP***************");
-					for (MetricAnalyzer key : map.get(extension)) {
-						System.out.println(key.getClassName());
-						System.out.println(key.getMetrics().toString());
-					}
-					System.out.println("_______________________");
-					names.add(extension);
-					values.add(childAnalizer);
-					
-				}
-			}
-		}
-		
-		return listPackages;
-	}
-
-	private void getOpenedFileMetrics() {
-		File file = editorServices.getOpenedFile();
-		analyzeMetrics(file);
-	}
-
-	private void analyzeMetrics(File file) {
-		metric = new MetricAnalyzer(file, this);
-		cv = new ClassVisitor(metric);
-		editorServices.parseFile(file, cv);
-		tableTree.updateTable(metric);
-	}
-
-	private void getServices() {
-		editorServices = Activator.getEditorService();
-		projectServices = Activator.getProjectService();
-
-	}
-
-	public HashMap<String, Integer> getMetricsList() {
-		return metricsList;
-	}
-
-	public void addMetric(String name, int value) {
-		metricsList.put(name, value);
-		tableTree.addNewMetric(name, value);
+	protected void updateTree(MetricAnalyzer metric) {
 		tableTree.updateTable(metric);
 	}
 	
-	
-	
+	protected void updatePackages(ArrayList<MetricAnalyzer> classesMap, ArrayList<String> packages) {
+		tableTree.updatePackages(classesMap, packages);
+	}
 	
 }
