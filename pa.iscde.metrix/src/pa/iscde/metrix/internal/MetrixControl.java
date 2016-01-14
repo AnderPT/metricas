@@ -26,7 +26,6 @@ public class MetrixControl {
 	private ArrayList<String> listPackages = new ArrayList<String>();
 	private ArrayList<MetricAnalyzer> classesMetrics = new ArrayList<MetricAnalyzer>();
 	private ArrayList<String> metrics = new ArrayList<String>();
-	private Multimap<String, MetricAnalyzer > map;
 	private ClassVisitor cv;
 
 	
@@ -41,7 +40,6 @@ public class MetrixControl {
 	protected void init() {
 		setServices();
 		inicializeMetrics();
-		map =  ArrayListMultimap.create();
 	}	
 	
 	private void inicializeMetrics() {
@@ -75,7 +73,7 @@ public class MetrixControl {
 		ArrayList<String> packages  = getListPackages(root, "");		
 		view.updatePackages(classesMetrics, packages);
 		packages.clear();
-		map.clear();
+		classesMetrics.clear();
 	}
 	
 	private ArrayList<String> getListPackages(PackageElement root, String extension) {

@@ -70,18 +70,28 @@ class MetrixExtension {
 		    for(IConfigurationElement c : confElements) {
 		            Object o;
 					try {
-						o = c.createExecutableExtension("class");
-						System.out.println(((NewMetric)o).metricName());
-						new NewMetricCalc(((NewMetric)o).metricName(),((NewMetric)o).typeMetric(),
-								((NewMetric)o).targetMetrics(DefaultMetrics.values()), metric).calcMetric();;
+						System.out.println(c.getName());
+						switch (c.getName()) {
+						case "newMetric":
+							o = c.createExecutableExtension("class");
+							System.out.println(((NewMetric)o).metricName());
+							break;
+						case "newPredefinedMetric":
+							break;
+						case "newMetricVisit":
+							break;
+						default:
+							break;
+						}
+						
+//						System.out.println(((NewMetric)o).metricName());
+//						new NewMetricCalc(((NewMetric)o).metricName(),((NewMetric)o).typeMetric(),
+//								((NewMetric)o).targetMetrics(DefaultMetrics.values()), metric).calcMetric();;
 		
 						
 					} catch (CoreException e1) {
 						e1.printStackTrace();
 					}
-		            
-		            
-		            
 		        
 		    }
 		}

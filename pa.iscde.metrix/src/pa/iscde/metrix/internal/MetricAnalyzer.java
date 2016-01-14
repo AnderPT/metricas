@@ -89,8 +89,8 @@ class MetricAnalyzer {
 	}
 	
 
-	protected void addNewMetric(String name, int value) {
-		metrics.put(name, value);
+	protected void addNewMetric(String name, double value) {
+//		metrics.put(name, value);
 		metrixController.addMetric(this);
 	}
 	

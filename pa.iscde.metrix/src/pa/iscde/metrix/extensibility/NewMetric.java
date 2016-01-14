@@ -27,19 +27,14 @@ public interface NewMetric {
 	 */
 	public TypeNewMetric typeMetric();
 	
-	/**
-	 * Metodo para escolher quais as métricas escolhidas para o cálculo 
-	 * da nova métrica. 
-	 * Deverá retornar uma array com pelo menos size > 1
-	 * @return 
-	 */
-	public ArrayList<DefaultMetrics> targetMetrics(DefaultMetrics[] possibleMetrics);
 	
 	/**
 	 * Metodo dado um Hash Map com as metricas e valores, podera calcular
 	 * de forma que entender o valor da nova metrica.
 	 * @return deve retornar o valor da nova metrica
 	 */
-	public int calcNewMetric (HashMap<String, Integer> metrics );
+	public double calcNewMetric (HashMap<String, Integer> metrics );
+	
+
 
 }

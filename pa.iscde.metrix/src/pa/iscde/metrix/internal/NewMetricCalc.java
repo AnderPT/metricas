@@ -20,7 +20,7 @@ class NewMetricCalc {
 	}
 	
 	protected void calcMetric() {
-		int result = 0;
+		double result = 0;
 		for (DefaultMetrics metricName : targetList) {
 			if (result != 0) {
 				switch (type) {
@@ -47,6 +47,10 @@ class NewMetricCalc {
 			result = result / targetList.size();
 		}
 		metric.addNewMetric(name, result);
+	}
+	
+	protected void addMetric(String name, double result) {
+		
 	}
 
 }

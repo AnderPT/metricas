@@ -15,12 +15,18 @@
          <appinfo>
             <meta.element />
          </appinfo>
+         <documentation>
+            Extensão para adicionar uma nova metrica.
+
+Esta extensão poderá ser feita de 3 formas distintas, pelo cálculo de uma nova métrica com os valores das outras métricas, com operações pre-definidas às métricas existentes ou mesmo usando um visitor para calcular uma nova métrica.
+         </documentation>
       </annotation>
       <complexType>
-         <sequence>
-            <element ref="New Metric"/>
-            <element ref="New Predefined Metric"/>
-         </sequence>
+         <choice>
+            <element ref="newMetric"/>
+            <element ref="newPredefinedMetric"/>
+            <element ref="newMetricVisit"/>
+         </choice>
          <attribute name="point" type="string" use="required">
             <annotation>
                <documentation>
@@ -48,10 +54,12 @@
       </complexType>
    </element>
 
-   <element name="New Metric">
+   <element name="newMetric">
       <annotation>
          <documentation>
-            I
+            Representa uma nova metrica que pode ser adicionada á lista de metricas
+
+Calculada implementando a classe NewMetric com metodos de nome da metrica e o seu valor calculado
          </documentation>
       </annotation>
       <complexType>
@@ -75,14 +83,23 @@
       </complexType>
    </element>
 
-   <element name="New Predefined Metric">
+   <element name="newPredefinedMetric">
       <annotation>
          <documentation>
-            Nesta extenção deve escolher uma um conjunto de metricas e formas de calcular estas por defeito.
+            Representa uma nova metrica que pode ser adicionada á lista de metricas
+
+Nesta extenção deve escolher uma um conjunto de metricas e formas de calcular estas por defeito.
          </documentation>
       </annotation>
       <complexType>
-         <attribute name="Tipo de calculo das métricas">
+         <attribute name="metricName" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="metricType" use="required">
             <annotation>
                <documentation>
                   Escolher o tipo de operação que pretende fazer com as métricas escolhidas
@@ -97,26 +114,44 @@
                   </enumeration>
                   <enumeration value="ADD">
                   </enumeration>
-                  <enumeration value="SUM">
+                  <enumeration value="AVERAGE">
+                  </enumeration>
+                  <enumeration value="COUNT">
                   </enumeration>
                </restriction>
             </simpleType>
          </attribute>
-         <attribute name="Metricas">
+         <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="identifier"/>
+                  <meta.attribute kind="java" basedOn=":pa.iscde.metrix.extensibility.NewPredefinedMetric"/>
                </appinfo>
             </annotation>
-            <simpleType>
-               <restriction base="string">
-                  <enumeration value="NUMBER_OF_LINES">
-                  </enumeration>
-               </restriction>
-            </simpleType>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="newMetricVisit">
+      <annotation>
+         <documentation>
+            Representa uma nova metrica que pode ser adicionada á lista de metricas
+
+Calculada implementando a classe NewMetric com metodos de nome da metrica e o seu valor calculado
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="class" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":pa.iscde.metrix.extensibility.NewMetricWVisitor"/>
+               </appinfo>
+            </annotation>
          </attribute>
       </complexType>
    </element>
