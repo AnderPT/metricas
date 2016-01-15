@@ -15,10 +15,13 @@
          <appinfo>
             <meta.element />
          </appinfo>
+         <documentation>
+            Extensao para exportacao das metricas e respectivos valores para um ficheiro pretendido.
+         </documentation>
       </annotation>
       <complexType>
          <sequence>
-            <element ref="item"/>
+            <element ref="metricExtension"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,19 +50,26 @@
       </complexType>
    </element>
 
-   <element name="item">
+   <element name="metricExtension">
       <complexType>
-         <attribute name="name" type="string">
+         <attribute name="fileName" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  Nome do ficheiro para exportar
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="fileType" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Tipo do ficheiro para exportar
                </documentation>
             </annotation>
          </attribute>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  Classe par implementar o metodo de exportacao das metricas
                </documentation>
                <appinfo>
                   <meta.attribute kind="java" basedOn=":pa.iscde.metrix.extensibility.ExportMetrix"/>

@@ -13,25 +13,10 @@ import java.util.HashMap;
 public interface ExportMetrix {
 	
 	
-	
-	
 	/**
-	 * Metodo para definir o tipo de exportação
-	 * Não pode ser null
-	 * @return o tipo de exportação
-	 */
-	public String setTypeExport();
-	
-	/**
-	 * Metodo para definir o nome do ficheiro a exportar
-	 * Não pode ser null
-	 * @return o nome do file de exportação
-	 */
-	public String setNamedFile();
-	
-	/**
-	 * Metodo para exportar 
-	 * 
+	 * Nesta funcao devera com o Hasmap de metricas criar um ficheiro
+	 * exportando as metricas e os valores para um tipo de ficheiro que pretender
+	 * @param hashMap - Hasmap com metricas
 	 */
 	public void exportFile(HashMap<String, Integer> hashMap);
 	
