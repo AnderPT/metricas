@@ -35,11 +35,13 @@ public class MetrixControl {
 
 	protected MetrixControl(MetrixView view) {
 		this.view = view;
+		inicializeMetrics();
+
 	}
 	
 	protected void init() {
 		setServices();
-		inicializeMetrics();
+		inspectFile(editorServices.getOpenedFile());
 	}	
 	
 	private void inicializeMetrics() {
@@ -123,9 +125,24 @@ public class MetrixControl {
 		return metrics;
 	}
 
-	public void addMetric(MetricAnalyzer metricAnalyzer) {
-		metrics.add(metricAnalyzer.getClassName());
-		view.updateTree(metricAnalyzer);
+	protected void exportMetricExtension() {
+		new MetrixExtension(this).exportMetricExtension();
+	}
+
+	protected void newMetricExtension() {
+		new MetrixExtension(this).newMetricExtension();;
+	}
+
+	public void addNewMetric(String metricName, int calcNewMetric) {
+		metrics.add(metricName);
+		view.addLineTree(metricName, calcNewMetric);
+	}
+
+	public MetricAnalyzer getAnalyzerFile() {
+		MetricAnalyzer ma = new MetricAnalyzer(editorServices.getOpenedFile(), this);
+		cv = new ClassVisitor(ma);
+		editorServices.parseFile(editorServices.getOpenedFile(), cv);
+		return ma;
 	}
 
 }

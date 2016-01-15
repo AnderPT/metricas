@@ -14,21 +14,24 @@ import org.eclipse.core.runtime.Platform;
 import pa.iscde.metrix.extensibility.DefaultMetrics;
 import pa.iscde.metrix.extensibility.ExportMetrix;
 import pa.iscde.metrix.extensibility.NewMetric;
+import pa.iscde.metrix.extensibility.NewPredefinedMetric;
 
 class MetrixExtension {
 	
 	private IExtensionPoint extensionPointExport;
 	private IExtensionPoint extensionPointExportNewMetric;
-	private MetricAnalyzer metric;
+	private MetrixControl metric;
+	private MetricAnalyzer metricAnalyzer;
 
 	/**
-	 * @param metric 
+	 * @param metrixControl 
 	 * 
 	 */
 	
-	protected MetrixExtension(MetricAnalyzer metric) {
+	protected MetrixExtension(MetrixControl metrixControl) {
 		
-		this.metric = metric;
+		this.metric = metrixControl;
+		this.metricAnalyzer = metric.getAnalyzerFile();
 		IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
 		extensionPointExport = extRegistry.getExtensionPoint("pa.iscde.metrixexport");
 		extensionPointExportNewMetric = extRegistry.getExtensionPoint("pa.iscde.addmetricext");
@@ -50,10 +53,9 @@ class MetrixExtension {
 		            Object o;
 					try {
 						o = c.createExecutableExtension("class");
-						((ExportMetrix)o).exportFile(metric.getMetrics());
+						((ExportMetrix)o).exportFile(metricAnalyzer.getMetrics());
 						
 					} catch (CoreException e1) {
-						e1.printStackTrace();
 					}
 		                
 		        
@@ -65,34 +67,30 @@ class MetrixExtension {
 	protected void newMetricExtension() {
 		IExtension[] extensions = extensionPointExportNewMetric.getExtensions();
 		for(IExtension e : extensions) {
-			System.out.println("PASSOU");
 		    IConfigurationElement[] confElements = e.getConfigurationElements();
 		    for(IConfigurationElement c : confElements) {
 		            Object o;
 					try {
-						System.out.println(c.getName());
 						switch (c.getName()) {
 						case "newMetric":
 							o = c.createExecutableExtension("class");
-							System.out.println(((NewMetric)o).metricName());
+							metric.addNewMetric(((NewMetric)o).metricName(), ((NewMetric)o).calcNewMetric(metricAnalyzer.getMetrics()));
 							break;
 						case "newPredefinedMetric":
+							o = c.createExecutableExtension("class");
+							new NewMetricCalc(c.getAttribute("metricName"), c.getAttribute("metricType"),
+									((NewPredefinedMetric)o).targetMetrics(DefaultMetrics.values()), metricAnalyzer).calcMetric();							
+							
 							break;
 						case "newMetricVisit":
 							break;
 						default:
 							break;
 						}
-						
-//						System.out.println(((NewMetric)o).metricName());
-//						new NewMetricCalc(((NewMetric)o).metricName(),((NewMetric)o).typeMetric(),
-//								((NewMetric)o).targetMetrics(DefaultMetrics.values()), metric).calcMetric();;
-		
+					
 						
 					} catch (CoreException e1) {
-						e1.printStackTrace();
 					}
-		        
 		    }
 		}
 	}

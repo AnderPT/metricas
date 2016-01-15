@@ -20,20 +20,13 @@ public interface NewMetric {
 	 */
 	public String metricName();
 	
-	/**
-	 * Escolher o tipo de cálculo a ser usado entre metricas
-	 * 
-	 * @return Deve retornar um tipo de uma nova metrica
-	 */
-	public TypeNewMetric typeMetric();
-	
 	
 	/**
 	 * Metodo dado um Hash Map com as metricas e valores, podera calcular
 	 * de forma que entender o valor da nova metrica.
 	 * @return deve retornar o valor da nova metrica
 	 */
-	public double calcNewMetric (HashMap<String, Integer> metrics );
+	public int calcNewMetric (HashMap<String, Integer> metrics );
 	
 
 

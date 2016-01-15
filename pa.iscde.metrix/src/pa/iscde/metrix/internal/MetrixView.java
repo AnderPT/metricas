@@ -38,12 +38,15 @@ public class MetrixView implements PidescoView {
 	private ArrayList<String> names = new ArrayList<String>();
 	private ArrayList<MetricAnalyzer> values = new ArrayList<MetricAnalyzer>();
 	private MetrixControl metrixController;
+	private Button addMetricBut;
+	private Button exportMetricBut;
+
+	
 
 	@Override
 	public void createContents(Composite viewArea, Map<String, Image> imageMap) {
 		
 		metrixController = new MetrixControl(this);
-		metrixController.init();
 		
 		viewArea.setLayout(new RowLayout());
 		Composite bar = new Composite(viewArea, SWT.BORDER_DASH);
@@ -57,24 +60,28 @@ public class MetrixView implements PidescoView {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (combo.getText().equals("Current File")) {
+					addMetricBut.setEnabled(true);
+					exportMetricBut.setEnabled(true);
 					metrixController.analyzeMetrics();
 
 				} else if (combo.getText().equals("Current Project")) {
+					addMetricBut.setEnabled(false);
+					exportMetricBut.setEnabled(false);
 					metrixController.analyzeProjectMetrics();
 				}
 			}
 		});
 		
 		//button export
-		  final Button button = new Button(viewArea, SWT.PUSH);
-		  button.setBounds(40, 50, 50, 20);
-		  button.setText("Export");
+		exportMetricBut = new Button(viewArea, SWT.PUSH);
+		exportMetricBut.setBounds(40, 50, 50, 20);
+		exportMetricBut.setText("Export");
 		  
-		  button.addSelectionListener(new SelectionListener() {
+		exportMetricBut.addSelectionListener(new SelectionListener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				new MetrixExtension(metric).exportMetricExtension();
+				metrixController.exportMetricExtension();
 			}
 			
 			@Override
@@ -83,7 +90,7 @@ public class MetrixView implements PidescoView {
 			}
 		});
 		  
-		  Button addMetricBut = new Button(viewArea, SWT.PUSH);
+		  addMetricBut = new Button(viewArea, SWT.PUSH);
 		  addMetricBut.setBounds(40, 50, 50, 20);
 		  addMetricBut.setText("Add New Metric");
 		  
@@ -91,7 +98,7 @@ public class MetrixView implements PidescoView {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				new MetrixExtension(metric).newMetricExtension();
+				metrixController.newMetricExtension();
 			}
 		
 			@Override
@@ -102,7 +109,8 @@ public class MetrixView implements PidescoView {
 		
 		tableTree = new TableTree(viewArea);
 		tableTree.init("Metrix", "Value");
-		
+		metrixController.init();
+
 		metrixController.setEditorServiceListener(combo.getText());
 		
 	}
@@ -113,6 +121,12 @@ public class MetrixView implements PidescoView {
 	
 	protected void updatePackages(ArrayList<MetricAnalyzer> classesMap, ArrayList<String> packages) {
 		tableTree.updatePackages(classesMap, packages);
+	}
+
+	public void addLineTree(String metricName, int calcNewMetric) {
+		if (combo.getText().equals("Current File")) {
+			tableTree.addNewMetric(metricName, calcNewMetric);
+		}
 	}
 	
 }

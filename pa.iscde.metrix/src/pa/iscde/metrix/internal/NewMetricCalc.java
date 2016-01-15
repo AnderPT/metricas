@@ -3,16 +3,15 @@ package pa.iscde.metrix.internal;
 import java.util.Collection;
 
 import pa.iscde.metrix.extensibility.DefaultMetrics;
-import pa.iscde.metrix.extensibility.TypeNewMetric;
 
 class NewMetricCalc {
 	
 	private String name;
-	private TypeNewMetric type;
+	private String type;
 	private Collection<DefaultMetrics> targetList;
 	private MetricAnalyzer metric;
 
-	protected NewMetricCalc(String name, TypeNewMetric type, Collection<DefaultMetrics> targetList, MetricAnalyzer metric) {
+	protected NewMetricCalc(String name, String type, Collection<DefaultMetrics> targetList, MetricAnalyzer metric) {
 		this.name = name;
 		this.type = type;
 		this.targetList = targetList;
@@ -20,20 +19,20 @@ class NewMetricCalc {
 	}
 	
 	protected void calcMetric() {
-		double result = 0;
+		int result = 0;
 		for (DefaultMetrics metricName : targetList) {
 			if (result != 0) {
 				switch (type) {
-				case SUBTRACT:
+				case "SUBTRACT":
 					result -= metric.getNumbMetric(new DefaultMetricsTranscation().getMetricName(metricName));
 					break;
-				case AVERAGE:
+				case "AVERAGE":
 					result += metric.getNumbMetric(new DefaultMetricsTranscation().getMetricName(metricName));
 					break;
-				case COUNT: 
+				case "COUNT": 
 					result++;
 					break;
-				case SUM:
+				case "SUM":
 					result += metric.getNumbMetric(new DefaultMetricsTranscation().getMetricName(metricName));;
 					break;
 				default:
@@ -43,14 +42,14 @@ class NewMetricCalc {
 				result = metric.getNumbMetric(new DefaultMetricsTranscation().getMetricName(metricName));
 			}
 		}
-		if (type == TypeNewMetric.AVERAGE) {
+		if (type.equals("AVERAGE")) {
 			result = result / targetList.size();
 		}
-		metric.addNewMetric(name, result);
+		addMetric(name,result);
 	}
 	
-	protected void addMetric(String name, double result) {
-		
+	protected void addMetric(String nameA, int resultA) {
+		metric.addNewMetric(nameA, resultA);
 	}
 
 }

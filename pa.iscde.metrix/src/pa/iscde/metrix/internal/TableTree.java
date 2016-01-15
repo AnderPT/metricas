@@ -18,6 +18,7 @@ import com.google.common.collect.Multimap;
 class TableTree {
 	
 	private Tree tree;
+	
 	private String[] metrics = new String[] {"Number of Lines", "Number of Methods", "Number of Constructors"
 			, "Number of Fields", "Number of Comments", "Number of Characters" , "Number of Packages"};
 	private ArrayList<TreeItem> listItems = new ArrayList<TreeItem>();
@@ -45,7 +46,7 @@ class TableTree {
 	private void addItems() {
 		for (int i = 0; i < metrics.length ; i++) {
 		      TreeItem item = new TreeItem(tree, SWT.NONE);
-		      item.setText(new String[] { metrics[i], "" + 0 });
+		      item.setText(new String[] { metrics[i], "" });
 		      listItems.add(item);
 		    }
 	}
@@ -69,30 +70,6 @@ class TableTree {
 //			(listItems.get(i)).setText(new String[] { metric.getInicialMetrics()[i], map.get(metric.getInicialMetrics()[i]) + "", });
 //		}
 		
-	}
-
-	protected void addSubtring(String path, String root) {
-		if (root.equals("")) {
-			System.out.println("*" + root + "*");
-			packages.add(path);
-			for (TreeItem ti : listItems) {
-				TreeItem item = new TreeItem(ti, SWT.NONE);
-				item.setText(new String[] {path, "0"});
-				listPackages.add(item);
-			}
-		}
-		if(packages.contains(root)) {
-			for (TreeItem ti : listItems) {
-				for(TreeItem t : listPackages) {
-					if (t.getText(0).equals(root)) {
-						TreeItem item = new TreeItem(ti, SWT.NONE);
-						item.setText(new String[] {path, "0"});
-						listPackages.add(item);
-					}
-				}
-			}
-			System.out.println("SIM: " + path);
-		}
 	}
 
 	protected void updatePackages(ArrayList<MetricAnalyzer> map, ArrayList<String> packages) {
@@ -120,6 +97,7 @@ class TableTree {
 		 TreeItem item = new TreeItem(tree, SWT.NONE);
 	      item.setText(new String[] {name, "" + value });
 	      listItems.add(item);
+	      metrics[metrics.length + 1]  = name;
 	}
 
 	
